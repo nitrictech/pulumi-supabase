@@ -7,11 +7,21 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
 
-namespace Pulumi.Xyz
+namespace Pulumi.Supabase
 {
-    [XyzResourceType("pulumi:providers:xyz")]
+    [SupabaseResourceType("pulumi:providers:supabase")]
     public partial class Provider : global::Pulumi.ProviderResource
     {
+        /// <summary>
+        /// Supbase Personal Access Token for account
+        /// </summary>
+        [Output("token")]
+        public Output<string> Token { get; private set; } = null!;
+
+        [Output("version")]
+        public Output<string> Version { get; private set; } = null!;
+
+
         /// <summary>
         /// Create a Provider resource with the given unique name, arguments, and options.
         /// </summary>
@@ -19,8 +29,8 @@ namespace Pulumi.Xyz
         /// <param name="name">The unique name of the resource</param>
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public Provider(string name, ProviderArgs? args = null, CustomResourceOptions? options = null)
-            : base("xyz", name, args ?? new ProviderArgs(), MakeResourceOptions(options, ""))
+        public Provider(string name, ProviderArgs args, CustomResourceOptions? options = null)
+            : base("supabase", name, args ?? new ProviderArgs(), MakeResourceOptions(options, ""))
         {
         }
 
@@ -39,8 +49,18 @@ namespace Pulumi.Xyz
 
     public sealed class ProviderArgs : global::Pulumi.ResourceArgs
     {
+        /// <summary>
+        /// Supbase Personal Access Token for account
+        /// </summary>
+        [Input("token", required: true)]
+        public Input<string> Token { get; set; } = null!;
+
+        [Input("version", required: true)]
+        public Input<string> Version { get; set; } = null!;
+
         public ProviderArgs()
         {
+            Token = Utilities.GetEnv("SUPABASE_ACCESS_TOKEN") ?? "";
         }
         public static new ProviderArgs Empty => new ProviderArgs();
     }
