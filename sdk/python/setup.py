@@ -15,15 +15,15 @@ class InstallPluginCommand(install):
     def run(self):
         install.run(self)
         try:
-            check_call(['pulumi', 'plugin', 'install', 'resource', 'xyz', PLUGIN_VERSION])
+            check_call(['pulumi', 'plugin', 'install', 'resource', 'supabase', PLUGIN_VERSION])
         except OSError as error:
             if error.errno == errno.ENOENT:
                 print(f"""
-                There was an error installing the xyz resource provider plugin.
+                There was an error installing the supabase resource provider plugin.
                 It looks like `pulumi` is not installed on your system.
                 Please visit https://pulumi.com/ to install the Pulumi CLI.
                 You may try manually installing the plugin by running
-                `pulumi plugin install resource xyz {PLUGIN_VERSION}`
+                `pulumi plugin install resource supabase {PLUGIN_VERSION}`
                 """)
             else:
                 raise
@@ -34,19 +34,27 @@ def readme():
         with open('README.md', encoding='utf-8') as f:
             return f.read()
     except FileNotFoundError:
-        return "xyz Pulumi Package - Development Version"
+        return "supabase Pulumi Package - Development Version"
 
 
-setup(name='pulumi_xyz',
+setup(name='pulumi_supabase',
+      python_requires='>=3.7',
       version=VERSION,
+      description="Supabase",
       long_description=readme(),
       long_description_content_type='text/markdown',
       cmdclass={
           'install': InstallPluginCommand,
       },
+      keywords='pulumi supabase kind/native',
+      url='https://github.com/nitrictech/pulumi-supabase',
+      project_urls={
+          'Repository': 'https://github.com/nitrictech/pulumi-supabase'
+      },
+      license='MIT',
       packages=find_packages(),
       package_data={
-          'pulumi_xyz': [
+          'pulumi_supabase': [
               'py.typed',
               'pulumi-plugin.json',
           ]

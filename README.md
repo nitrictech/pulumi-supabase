@@ -1,10 +1,10 @@
-# Pulumi Native Provider Boilerplate
+# Pulumi Supabase
 
-This repository is a boilerplate showing how to create a native Pulumi provider.
+A native pulumi provider for the Supabase Management API.
 
 ## Authoring a Pulumi Native Provider
 
-This boilerplate creates a working Pulumi-owned provider named `xyz`.
+This boilerplate creates a working Pulumi-owned provider named `supabase`.
 It implements a random number generator that you can [build and test out for yourself](#test-against-the-example) and then replace the Random code with code specific to your provider.
 
 
@@ -28,14 +28,14 @@ Pulumi offers this repository as a [GitHub template repository](https://docs.git
 1. Click "Use this template".
 1. Set the following options:
    * Owner: pulumi 
-   * Repository name: pulumi-xyz-native (replace "xyz" with the name of your provider)
-   * Description: Pulumi provider for xyz
+   * Repository name: pulumi-supabase-native (replace "supabase" with the name of your provider)
+   * Description: Pulumi provider for supabase
    * Repository type: Public
 1. Clone the generated repository.
 
 From the templated repository:
 
-1. Search-replace `xyz` with the name of your desired provider.
+1. Search-replace `supabase` with the name of your desired provider.
 
 #### Build the provider and install the plugin
 
@@ -54,7 +54,7 @@ This will:
    
 ```bash
 $ cd examples/simple
-$ yarn link @pulumi/xyz
+$ yarn link @pulumi/supabase
 $ yarn install
 $ pulumi stack init test
 $ pulumi up
@@ -67,9 +67,9 @@ Now that you have completed all of the above steps, you have a working provider 
 You now have:
 
 1. A `provider/` folder containing the building and implementation logic
-    1. `cmd/pulumi-resource-xyz/main.go` - holds the provider's sample implementation logic.
+    1. `cmd/pulumi-resource-supabase/main.go` - holds the provider's sample implementation logic.
 2. `deployment-templates` - a set of files to help you around deployment and publication
-3. `sdk` - holds the generated code libraries created by `pulumi-gen-xyz/main.go`
+3. `sdk` - holds the generated code libraries created by `pulumi-gen-supabase/main.go`
 4. `examples` a folder of Pulumi programs to try locally and/or use in CI.
 5. A `Makefile` and this `README`.
 

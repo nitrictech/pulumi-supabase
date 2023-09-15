@@ -1,15 +1,15 @@
-PROJECT_NAME := Pulumi Xyz Resource Provider
+PROJECT_NAME := Pulumi supabase Resource Provider
 
-PACK             := xyz
+PACK             := supabase
 PACKDIR          := sdk
-PROJECT          := github.com/pulumi/pulumi-xyz
-NODE_MODULE_NAME := @pulumi/xyz
-NUGET_PKG_NAME   := Pulumi.Xyz
+PROJECT          := github.com/nitrictech/pulumi-supabase
+NODE_MODULE_NAME := @nitric/pulumi-supabase
+NUGET_PKG_NAME   := Nitric.pulumi-supabase
 
 PROVIDER        := pulumi-resource-${PACK}
 VERSION         ?= $(shell pulumictl get version)
 PROVIDER_PATH   := provider
-VERSION_PATH     := ${PROVIDER_PATH}/cmd/main.Version
+VERSION_PATH    := main.Version
 
 GOPATH			:= $(shell go env GOPATH)
 
@@ -22,10 +22,10 @@ ensure::
 	cd tests && go mod tidy
 
 provider::
-	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
+	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -ldflags "-X ${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
 
 provider_debug::
-	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -gcflags="all=-N -l" -ldflags "-X ${PROJECT}/${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
+	(cd provider && go build -o $(WORKING_DIR)/bin/${PROVIDER} -gcflags="all=-N -l" -ldflags "-X ${VERSION_PATH}=${VERSION}" $(PROJECT)/${PROVIDER_PATH}/cmd/$(PROVIDER))
 
 test_provider::
 	cd provider/pkg && go test -short -v -count=1 -cover -timeout 2h -parallel ${TESTPARALLELISM} ./...
@@ -67,7 +67,7 @@ python_sdk::
 		cd ./bin && python3 setup.py build sdist
 
 .PHONY: build
-build:: provider dotnet_sdk go_sdk nodejs_sdk python_sdk
+build:: generate provider dotnet_sdk go_sdk nodejs_sdk python_sdk
 
 # Required for the codegen action that runs in pulumi/pulumi
 only_build:: build
@@ -76,7 +76,6 @@ lint::
 	for DIR in "provider" "sdk" "tests" ; do \
 		pushd $$DIR && golangci-lint run -c ../.golangci.yml --timeout 10m && popd ; \
 	done
-
 
 install:: install_nodejs_sdk install_dotnet_sdk
 	cp $(WORKING_DIR)/bin/${PROVIDER} ${GOPATH}/bin
@@ -105,3 +104,11 @@ install_go_sdk::
 install_nodejs_sdk::
 	-yarn unlink --cwd $(WORKING_DIR)/sdk/nodejs/bin
 	yarn link --cwd $(WORKING_DIR)/sdk/nodejs/bin
+
+
+.PHONY: generate
+
+# Generate go client for resource provider from supabase openapi spec
+generate::
+	mkdir -p ./provider/pkg/api/supabase
+	go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest -package supabase https://api.supabase.com/api/v1-json > ./provider/pkg/api/supabase/api.gen.go

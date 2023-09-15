@@ -13,9 +13,15 @@
         "strict": true
     },
     "files": [
+        "config/index.ts",
+        "config/vars.ts",
         "index.ts",
         "provider.ts",
-        "random.ts",
+        "supabase/index.ts",
+        "supabase/migration.ts",
+        "supabase/organization.ts",
+        "supabase/project.ts",
+        "supabase/secret.ts",
         "utilities.ts"
     ]
 }
