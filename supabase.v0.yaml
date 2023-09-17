@@ -19,7 +19,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/GetGoTrueConfigResponse'
+                $ref: '#/components/schemas/GetGoTrueConfigReply'
         '500':
           description: Failed to retrieve GoTrue config
       tags: &ref_0
@@ -386,7 +386,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/DownloadBackupResponse'
+                $ref: '#/components/schemas/DownloadBackupReply'
         '500':
           description: Failed to download project backup
       tags: *ref_4
@@ -1642,7 +1642,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ValidateQueryResponse'
+                $ref: '#/components/schemas/ValidateQueryReply'
         '500':
           description: Failed to validate sql query
       tags: *ref_20
@@ -2640,7 +2640,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CreateProjectResponse'
+                $ref: '#/components/schemas/CreateProjectReply'
       tags: *ref_33
       security: *ref_34
   /v0/projects/metrics:
@@ -3085,7 +3085,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CopyObjectResponse'
+                $ref: '#/components/schemas/CopyObjectReply'
         '403':
           description: ''
         '500':
@@ -3403,7 +3403,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/SendInviteResponse'
+                $ref: '#/components/schemas/SendInviteReply'
         '500':
           description: Failed to invite user
       tags: *ref_44
@@ -4507,7 +4507,7 @@ paths:
       security: &ref_63
         - bearer: []
     put:
-      operationId: updateConfig
+      operationId: putConfig
       summary: Updates project's Postgres config
       parameters:
         - name: ref
@@ -4537,7 +4537,7 @@ paths:
       security: *ref_63
   /v0/projects/{ref}/config/secrets:
     patch:
-      operationId: updateConfig
+      operationId: patchConfigSecret
       summary: Updates project's secrets config
       parameters:
         - name: ref
@@ -4642,7 +4642,7 @@ components:
       bearerFormat: JWT
       type: http
   schemas:
-    GetGoTrueConfigResponse:
+    GetGoTrueConfigReply:
       type: object
       properties:
         SITE_URL:
@@ -5792,7 +5792,7 @@ components:
         - s3_bucket
         - s3_path
         - status
-    DownloadBackupResponse:
+    DownloadBackupReply:
       type: object
       properties:
         fileUrl:
@@ -6502,7 +6502,7 @@ components:
           type: string
       required:
         - query
-    ValidateQueryResponse:
+    ValidateQueryReply:
       type: object
       properties:
         valid:
@@ -7217,7 +7217,7 @@ components:
         - db_region
         - db_pricing_tier_id
         - custom_supabase_internal_requests
-    CreateProjectResponse:
+    CreateProjectReply:
       type: object
       properties:
         cloud_provider:
@@ -7564,7 +7564,7 @@ components:
       required:
         - from
         - to
-    CopyObjectResponse:
+    CopyObjectReply:
       type: object
       properties:
         path:
@@ -7730,7 +7730,7 @@ components:
         - invited_email
         - owner_id
         - role_id
-    SendInviteResponse:
+    SendInviteReply:
       type: object
       properties:
         invited_at:
