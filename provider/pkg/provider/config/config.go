@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/nitrictech/pulumi-supabase/provider/pkg/api/supabase"
+	v0 "github.com/nitrictech/pulumi-supabase/provider/pkg/api/supabase/v0"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
@@ -12,9 +13,10 @@ import (
 const defaultApiHost = "https://api.supabase.com"
 
 type Config struct {
-	Token   string `pulumi:"token"`
-	Client  *supabase.Client
-	Version string `pulumi:"version"`
+	Token              string `pulumi:"token"`
+	Client             *supabase.Client
+	ExperimentalClient *v0.Client
+	Version            string `pulumi:"version"`
 }
 
 var _ = (infer.Annotated)((*Config)(nil))
@@ -43,6 +45,12 @@ func (c *Config) Configure(ctx p.Context) error {
 		return fmt.Errorf("unable to create supabase API client: %w", err)
 	}
 
+	experimentalClient, err := v0.NewClient(defaultApiHost, v0.WithAuthToken(token))
+	if err != nil {
+		return fmt.Errorf("unable to create supabase API client: %w", err)
+	}
+
 	c.Client = client
+	c.ExperimentalClient = experimentalClient
 	return nil
 }
