@@ -2651,6 +2651,7 @@ paths:
         At most 50 projects can be queried at a time.
         Currently supports '1d', '3d', and '7d' intervals.
       parameters: []
+      # GET Requests should not have a request body
       requestBody:
         required: true
         content:
@@ -3540,10 +3541,7 @@ paths:
       tags: *ref_48
       security: *ref_49
   /v0/projects/{ref}/content:
-    get:
-      operationId: getContent
-      summary: Gets project's content
-      parameters:
+    parameters:
         - name: ref
           required: true
           in: path
@@ -3552,6 +3550,9 @@ paths:
             minLength: 20
             maxLength: 20
             type: string
+    get:
+      operationId: getProjectContent
+      summary: Gets project's content
       responses:
         '200':
           description: ''
@@ -3568,15 +3569,6 @@ paths:
     post:
       operationId: createContent
       summary: Creates project's content
-      parameters:
-        - name: ref
-          required: true
-          in: path
-          description: Project ref
-          schema:
-            minLength: 20
-            maxLength: 20
-            type: string
       requestBody:
         required: true
         content:
@@ -3599,15 +3591,6 @@ paths:
     put:
       operationId: updateWholeContent
       summary: Updates project's content
-      parameters:
-        - name: ref
-          required: true
-          in: path
-          description: Project ref
-          schema:
-            minLength: 20
-            maxLength: 20
-            type: string
       requestBody:
         required: true
         content:
@@ -3628,12 +3611,12 @@ paths:
     patch:
       operationId: updateContent
       summary: Updates project's content
-      parameters:
-        - name: id
-          required: true
-          in: query
-          schema:
-            type: string
+      # parameters:
+      #   - name: id
+      #     required: true
+      #     in: query
+      #     schema:
+      #       type: string
       requestBody:
         required: true
         content:
@@ -4196,7 +4179,7 @@ paths:
         - bearer: []
   /v0/projects/{ref}/status:
     get:
-      operationId: getStatus
+      operationId: getProjectStatus
       summary: Gets project's status
       parameters:
         - name: ref
@@ -4244,7 +4227,7 @@ paths:
         - bearer: []
   /v0/projects/{ref}/analytics/endpoints/functions.inv-stats:
     get:
-      operationId: getStatus
+      operationId: getFunctionStatus
       summary: Gets a project's function invocation statistics
       parameters:
         - name: ref
@@ -4586,7 +4569,7 @@ paths:
         - bearer: []
   /v0/projects/{ref}/config/storage:
     get:
-      operationId: getConfig
+      operationId: getStorageConfig
       summary: Gets project's storage config
       parameters:
         - name: ref
@@ -5773,10 +5756,8 @@ components:
           type: object
           properties:
             earliestPhysicalBackupDateUnix:
-              required: false
               type: number
             latestPhysicalBackupDateUnix:
-              required: false
               type: number
       required:
         - tierId
@@ -7835,20 +7816,22 @@ components:
           type: object
           properties:
             id:
-              required: true
               type: number
             username:
-              required: true
               type: string
+          required:
+            - username
+            - id
         updated_by:
           type: object
           properties:
             id:
-              required: true
               type: number
             username:
-              required: true
               type: string
+          required:
+            - username
+            - id
         id:
           type: string
         inserted_at:
