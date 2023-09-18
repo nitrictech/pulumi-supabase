@@ -16,22 +16,26 @@ class ProjectArgs:
     def __init__(__self__, *,
                  db_pass: pulumi.Input[str],
                  organization_id: pulumi.Input[int],
-                 region: pulumi.Input[str],
+                 cloud: Optional[pulumi.Input[str]] = None,
                  kps_enabled: Optional[pulumi.Input[bool]] = None,
                  name: Optional[pulumi.Input[str]] = None,
-                 plan: Optional[pulumi.Input[str]] = None):
+                 plan: Optional[pulumi.Input[str]] = None,
+                 region: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Project resource.
         """
         pulumi.set(__self__, "db_pass", db_pass)
         pulumi.set(__self__, "organization_id", organization_id)
-        pulumi.set(__self__, "region", region)
+        if cloud is not None:
+            pulumi.set(__self__, "cloud", cloud)
         if kps_enabled is not None:
             pulumi.set(__self__, "kps_enabled", kps_enabled)
         if name is not None:
             pulumi.set(__self__, "name", name)
         if plan is not None:
             pulumi.set(__self__, "plan", plan)
+        if region is not None:
+            pulumi.set(__self__, "region", region)
 
     @property
     @pulumi.getter
@@ -53,12 +57,12 @@ class ProjectArgs:
 
     @property
     @pulumi.getter
-    def region(self) -> pulumi.Input[str]:
-        return pulumi.get(self, "region")
+    def cloud(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "cloud")
 
-    @region.setter
-    def region(self, value: pulumi.Input[str]):
-        pulumi.set(self, "region", value)
+    @cloud.setter
+    def cloud(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "cloud", value)
 
     @property
     @pulumi.getter
@@ -87,12 +91,22 @@ class ProjectArgs:
     def plan(self, value: Optional[pulumi.Input[str]]):
         pulumi.set(self, "plan", value)
 
+    @property
+    @pulumi.getter
+    def region(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "region")
+
+    @region.setter
+    def region(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "region", value)
+
 
 class Project(pulumi.CustomResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 cloud: Optional[pulumi.Input[str]] = None,
                  db_pass: Optional[pulumi.Input[str]] = None,
                  kps_enabled: Optional[pulumi.Input[bool]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -128,6 +142,7 @@ class Project(pulumi.CustomResource):
     def _internal_init(__self__,
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
+                 cloud: Optional[pulumi.Input[str]] = None,
                  db_pass: Optional[pulumi.Input[str]] = None,
                  kps_enabled: Optional[pulumi.Input[bool]] = None,
                  name: Optional[pulumi.Input[str]] = None,
@@ -143,6 +158,7 @@ class Project(pulumi.CustomResource):
                 raise TypeError('__props__ is only valid when passed in combination with a valid opts.id to get an existing resource')
             __props__ = ProjectArgs.__new__(ProjectArgs)
 
+            __props__.__dict__["cloud"] = cloud
             if db_pass is None and not opts.urn:
                 raise TypeError("Missing required property 'db_pass'")
             __props__.__dict__["db_pass"] = None if db_pass is None else pulumi.Output.secret(db_pass)
@@ -152,8 +168,6 @@ class Project(pulumi.CustomResource):
                 raise TypeError("Missing required property 'organization_id'")
             __props__.__dict__["organization_id"] = organization_id
             __props__.__dict__["plan"] = plan
-            if region is None and not opts.urn:
-                raise TypeError("Missing required property 'region'")
             __props__.__dict__["region"] = region
             __props__.__dict__["database_host"] = None
             __props__.__dict__["project_endpoint"] = None
@@ -184,6 +198,7 @@ class Project(pulumi.CustomResource):
 
         __props__ = ProjectArgs.__new__(ProjectArgs)
 
+        __props__.__dict__["cloud"] = None
         __props__.__dict__["database_host"] = None
         __props__.__dict__["db_pass"] = None
         __props__.__dict__["kps_enabled"] = None
@@ -196,6 +211,11 @@ class Project(pulumi.CustomResource):
         __props__.__dict__["project_ref"] = None
         __props__.__dict__["region"] = None
         return Project(resource_name, opts=opts, __props__=__props__)
+
+    @property
+    @pulumi.getter
+    def cloud(self) -> pulumi.Output[Optional[str]]:
+        return pulumi.get(self, "cloud")
 
     @property
     @pulumi.getter
@@ -249,6 +269,6 @@ class Project(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def region(self) -> pulumi.Output[str]:
+    def region(self) -> pulumi.Output[Optional[str]]:
         return pulumi.get(self, "region")
 

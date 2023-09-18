@@ -31,6 +31,7 @@ export class Project extends pulumi.CustomResource {
         return obj['__pulumiType'] === Project.__pulumiType;
     }
 
+    public readonly cloud!: pulumi.Output<string | undefined>;
     public /*out*/ readonly database_host!: pulumi.Output<string>;
     public readonly db_pass!: pulumi.Output<string>;
     public readonly kps_enabled!: pulumi.Output<boolean | undefined>;
@@ -41,7 +42,7 @@ export class Project extends pulumi.CustomResource {
     public /*out*/ readonly project_id!: pulumi.Output<number>;
     public /*out*/ readonly project_name!: pulumi.Output<string>;
     public /*out*/ readonly project_ref!: pulumi.Output<string>;
-    public readonly region!: pulumi.Output<string>;
+    public readonly region!: pulumi.Output<string | undefined>;
 
     /**
      * Create a Project resource with the given unique name, arguments, and options.
@@ -60,9 +61,7 @@ export class Project extends pulumi.CustomResource {
             if ((!args || args.organization_id === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'organization_id'");
             }
-            if ((!args || args.region === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'region'");
-            }
+            resourceInputs["cloud"] = args ? args.cloud : undefined;
             resourceInputs["db_pass"] = args?.db_pass ? pulumi.secret(args.db_pass) : undefined;
             resourceInputs["kps_enabled"] = args ? args.kps_enabled : undefined;
             resourceInputs["name"] = args ? args.name : undefined;
@@ -75,6 +74,7 @@ export class Project extends pulumi.CustomResource {
             resourceInputs["project_name"] = undefined /*out*/;
             resourceInputs["project_ref"] = undefined /*out*/;
         } else {
+            resourceInputs["cloud"] = undefined /*out*/;
             resourceInputs["database_host"] = undefined /*out*/;
             resourceInputs["db_pass"] = undefined /*out*/;
             resourceInputs["kps_enabled"] = undefined /*out*/;
@@ -98,10 +98,11 @@ export class Project extends pulumi.CustomResource {
  * The set of arguments for constructing a Project resource.
  */
 export interface ProjectArgs {
+    cloud?: pulumi.Input<string>;
     db_pass: pulumi.Input<string>;
     kps_enabled?: pulumi.Input<boolean>;
     name?: pulumi.Input<string>;
     organization_id: pulumi.Input<number>;
     plan?: pulumi.Input<string>;
-    region: pulumi.Input<string>;
+    region?: pulumi.Input<string>;
 }

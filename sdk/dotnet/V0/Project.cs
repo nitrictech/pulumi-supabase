@@ -12,6 +12,9 @@ namespace Pulumi.Supabase.V0
     [SupabaseResourceType("supabase:v0:Project")]
     public partial class Project : global::Pulumi.CustomResource
     {
+        [Output("cloud")]
+        public Output<string?> Cloud { get; private set; } = null!;
+
         [Output("database_host")]
         public Output<string> Database_host { get; private set; } = null!;
 
@@ -43,7 +46,7 @@ namespace Pulumi.Supabase.V0
         public Output<string> Project_ref { get; private set; } = null!;
 
         [Output("region")]
-        public Output<string> Region { get; private set; } = null!;
+        public Output<string?> Region { get; private set; } = null!;
 
 
         /// <summary>
@@ -94,6 +97,9 @@ namespace Pulumi.Supabase.V0
 
     public sealed class ProjectArgs : global::Pulumi.ResourceArgs
     {
+        [Input("cloud")]
+        public Input<string>? Cloud { get; set; }
+
         [Input("db_pass", required: true)]
         private Input<string>? _db_pass;
         public Input<string>? Db_pass
@@ -118,8 +124,8 @@ namespace Pulumi.Supabase.V0
         [Input("plan")]
         public Input<string>? Plan { get; set; }
 
-        [Input("region", required: true)]
-        public Input<string> Region { get; set; } = null!;
+        [Input("region")]
+        public Input<string>? Region { get; set; }
 
         public ProjectArgs()
         {

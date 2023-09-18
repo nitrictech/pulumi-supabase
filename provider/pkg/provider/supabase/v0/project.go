@@ -41,8 +41,11 @@ type ProjectArgs struct {
 	// Plan Subscription plan
 	Plan string `pulumi:"plan,optional"`
 
-	// Region Region you want your server to reside in
-	Region string `pulumi:"region"`
+	// Region you want your server to reside in
+	Region string `pulumi:"region,optional"`
+
+	// Cloud you want your server to reside in ("AWS" currently supported)
+	Cloud string `pulumi:"cloud,optional"`
 }
 
 // Each resource has a state, describing the fields that exist on the created resource.
@@ -75,30 +78,27 @@ func (Project) Create(ctx p.Context, name string, input ProjectArgs, preview boo
 
 	plan := input.Plan
 	if plan == "" {
-		plan = "free"
+		plan = "tier_free"
 	}
 
-	// {
-	// 	"cloud_provider": "AWS",
-	// 	"org_id": 95183,
-	// 	"name": "test",
-	// 	"db_pass": "bg#3#tt5JUBBJ#P",
-	// 	"db_region": "East US (North Virginia)",
-	// 	"db_pricing_tier_id": "tier_free"
-	//   }
+	cloud := input.Cloud
+	if cloud == "" {
+		cloud = "AWS"
+	}
+
+	region := input.Region
+	if region == "" {
+		region = "East US (North Virginia)"
+	}
 
 	resp, err := supabaseClient.CreateProject(ctx, supabase.CreateProjectBody{
-		OrgId:      float32(input.OrganizationId),
-		DbPass:     input.DbPass,
-		Name:       projectName,
-		KpsEnabled: &input.KpsEnabled,
-		// TODO: Make configurable
-		CloudProvider:   "AWS",
-		DbRegion:        "East US (North Virginia)",
-		DbPricingTierId: "tier_free",
-		// DbPricingTierId: ,
-		// Plan:       supabase.CreateProjectBodyPlan(input.Plan),
-		// Region:     supabase.CreateProjectBodyRegion(input.Region),
+		OrgId:           float32(input.OrganizationId),
+		DbPass:          input.DbPass,
+		Name:            projectName,
+		KpsEnabled:      &input.KpsEnabled,
+		CloudProvider:   cloud,
+		DbRegion:        region,
+		DbPricingTierId: plan,
 	})
 
 	if err != nil {

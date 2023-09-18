@@ -14,6 +14,7 @@ import (
 type Project struct {
 	pulumi.CustomResourceState
 
+	Cloud            pulumi.StringPtrOutput `pulumi:"cloud"`
 	Database_host    pulumi.StringOutput    `pulumi:"database_host"`
 	Db_pass          pulumi.StringOutput    `pulumi:"db_pass"`
 	Kps_enabled      pulumi.BoolPtrOutput   `pulumi:"kps_enabled"`
@@ -24,7 +25,7 @@ type Project struct {
 	Project_id       pulumi.IntOutput       `pulumi:"project_id"`
 	Project_name     pulumi.StringOutput    `pulumi:"project_name"`
 	Project_ref      pulumi.StringOutput    `pulumi:"project_ref"`
-	Region           pulumi.StringOutput    `pulumi:"region"`
+	Region           pulumi.StringPtrOutput `pulumi:"region"`
 }
 
 // NewProject registers a new resource with the given unique name, arguments, and options.
@@ -39,9 +40,6 @@ func NewProject(ctx *pulumi.Context,
 	}
 	if args.Organization_id == nil {
 		return nil, errors.New("invalid value for required argument 'Organization_id'")
-	}
-	if args.Region == nil {
-		return nil, errors.New("invalid value for required argument 'Region'")
 	}
 	if args.Db_pass != nil {
 		args.Db_pass = pulumi.ToSecret(args.Db_pass).(pulumi.StringInput)
@@ -82,22 +80,24 @@ func (ProjectState) ElementType() reflect.Type {
 }
 
 type projectArgs struct {
+	Cloud           *string `pulumi:"cloud"`
 	Db_pass         string  `pulumi:"db_pass"`
 	Kps_enabled     *bool   `pulumi:"kps_enabled"`
 	Name            *string `pulumi:"name"`
 	Organization_id int     `pulumi:"organization_id"`
 	Plan            *string `pulumi:"plan"`
-	Region          string  `pulumi:"region"`
+	Region          *string `pulumi:"region"`
 }
 
 // The set of arguments for constructing a Project resource.
 type ProjectArgs struct {
+	Cloud           pulumi.StringPtrInput
 	Db_pass         pulumi.StringInput
 	Kps_enabled     pulumi.BoolPtrInput
 	Name            pulumi.StringPtrInput
 	Organization_id pulumi.IntInput
 	Plan            pulumi.StringPtrInput
-	Region          pulumi.StringInput
+	Region          pulumi.StringPtrInput
 }
 
 func (ProjectArgs) ElementType() reflect.Type {
@@ -187,6 +187,10 @@ func (o ProjectOutput) ToProjectOutputWithContext(ctx context.Context) ProjectOu
 	return o
 }
 
+func (o ProjectOutput) Cloud() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Project) pulumi.StringPtrOutput { return v.Cloud }).(pulumi.StringPtrOutput)
+}
+
 func (o ProjectOutput) Database_host() pulumi.StringOutput {
 	return o.ApplyT(func(v *Project) pulumi.StringOutput { return v.Database_host }).(pulumi.StringOutput)
 }
@@ -227,8 +231,8 @@ func (o ProjectOutput) Project_ref() pulumi.StringOutput {
 	return o.ApplyT(func(v *Project) pulumi.StringOutput { return v.Project_ref }).(pulumi.StringOutput)
 }
 
-func (o ProjectOutput) Region() pulumi.StringOutput {
-	return o.ApplyT(func(v *Project) pulumi.StringOutput { return v.Region }).(pulumi.StringOutput)
+func (o ProjectOutput) Region() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Project) pulumi.StringPtrOutput { return v.Region }).(pulumi.StringPtrOutput)
 }
 
 type ProjectArrayOutput struct{ *pulumi.OutputState }
