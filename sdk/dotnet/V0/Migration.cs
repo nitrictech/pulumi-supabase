@@ -7,9 +7,9 @@ using System.Collections.Immutable;
 using System.Threading.Tasks;
 using Pulumi.Serialization;
 
-namespace Pulumi.Supabase.V1
+namespace Pulumi.Supabase.V0
 {
-    [SupabaseResourceType("supabase:v1:Migration")]
+    [SupabaseResourceType("supabase:v0:Migration")]
     public partial class Migration : global::Pulumi.CustomResource
     {
         [Output("db_password")]
@@ -24,8 +24,8 @@ namespace Pulumi.Supabase.V1
         [Output("include_seed")]
         public Output<bool?> Include_seed { get; private set; } = null!;
 
-        [Output("project_id")]
-        public Output<string?> Project_id { get; private set; } = null!;
+        [Output("project_ref")]
+        public Output<string?> Project_ref { get; private set; } = null!;
 
 
         /// <summary>
@@ -36,12 +36,12 @@ namespace Pulumi.Supabase.V1
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
         public Migration(string name, MigrationArgs args, CustomResourceOptions? options = null)
-            : base("supabase:v1:Migration", name, args ?? new MigrationArgs(), MakeResourceOptions(options, ""))
+            : base("supabase:v0:Migration", name, args ?? new MigrationArgs(), MakeResourceOptions(options, ""))
         {
         }
 
         private Migration(string name, Input<string> id, CustomResourceOptions? options = null)
-            : base("supabase:v1:Migration", name, null, MakeResourceOptions(options, id))
+            : base("supabase:v0:Migration", name, null, MakeResourceOptions(options, id))
         {
         }
 
@@ -84,8 +84,8 @@ namespace Pulumi.Supabase.V1
         [Input("include_seed")]
         public Input<bool>? Include_seed { get; set; }
 
-        [Input("project_id")]
-        public Input<string>? Project_id { get; set; }
+        [Input("project_ref")]
+        public Input<string>? Project_ref { get; set; }
 
         public MigrationArgs()
         {

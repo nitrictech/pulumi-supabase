@@ -2,6 +2,7 @@ package v1
 
 import (
 	"fmt"
+	"io"
 
 	"github.com/nitrictech/pulumi-supabase/provider/pkg/api/supabase"
 	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/config"
@@ -53,4 +54,23 @@ func (Secret) Create(ctx p.Context, name string, input SecretArgs, preview bool)
 	}
 
 	return name, state, nil
+}
+
+// The Delete method will be run on deletion.
+func (Secret) Delete(ctx p.Context, name string, state SecretState) error {
+	config := infer.GetConfig[config.Config](ctx)
+	supabaseClient := config.Client
+
+	resp, err := supabaseClient.DeleteSecrets(ctx, state.ProjectId, []string{state.Name})
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode/100 != 2 {
+		respBody, _ := io.ReadAll(resp.Body)
+		// If not a 200 status
+		return fmt.Errorf("received non 200 status: %d: %s", resp.StatusCode, string(respBody))
+	}
+
+	return nil
 }

@@ -18,7 +18,7 @@ export class Migration extends pulumi.CustomResource {
     }
 
     /** @internal */
-    public static readonly __pulumiType = 'supabase:v1:Migration';
+    public static readonly __pulumiType = 'supabase:v0:Migration';
 
     /**
      * Returns true if the given object is an instance of Migration.  This is designed to work even
@@ -35,7 +35,7 @@ export class Migration extends pulumi.CustomResource {
     public readonly include_all!: pulumi.Output<boolean | undefined>;
     public readonly include_roles!: pulumi.Output<boolean | undefined>;
     public readonly include_seed!: pulumi.Output<boolean | undefined>;
-    public readonly project_id!: pulumi.Output<string | undefined>;
+    public readonly project_ref!: pulumi.Output<string | undefined>;
 
     /**
      * Create a Migration resource with the given unique name, arguments, and options.
@@ -55,13 +55,13 @@ export class Migration extends pulumi.CustomResource {
             resourceInputs["include_all"] = args ? args.include_all : undefined;
             resourceInputs["include_roles"] = args ? args.include_roles : undefined;
             resourceInputs["include_seed"] = args ? args.include_seed : undefined;
-            resourceInputs["project_id"] = args ? args.project_id : undefined;
+            resourceInputs["project_ref"] = args ? args.project_ref : undefined;
         } else {
             resourceInputs["db_password"] = undefined /*out*/;
             resourceInputs["include_all"] = undefined /*out*/;
             resourceInputs["include_roles"] = undefined /*out*/;
             resourceInputs["include_seed"] = undefined /*out*/;
-            resourceInputs["project_id"] = undefined /*out*/;
+            resourceInputs["project_ref"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(Migration.__pulumiType, name, resourceInputs, opts);
@@ -76,5 +76,5 @@ export interface MigrationArgs {
     include_all?: pulumi.Input<boolean>;
     include_roles?: pulumi.Input<boolean>;
     include_seed?: pulumi.Input<boolean>;
-    project_id?: pulumi.Input<string>;
+    project_ref?: pulumi.Input<string>;
 }

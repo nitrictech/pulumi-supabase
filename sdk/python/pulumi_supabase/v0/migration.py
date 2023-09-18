@@ -18,7 +18,7 @@ class MigrationArgs:
                  include_all: Optional[pulumi.Input[bool]] = None,
                  include_roles: Optional[pulumi.Input[bool]] = None,
                  include_seed: Optional[pulumi.Input[bool]] = None,
-                 project_id: Optional[pulumi.Input[str]] = None):
+                 project_ref: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Migration resource.
         """
@@ -29,8 +29,8 @@ class MigrationArgs:
             pulumi.set(__self__, "include_roles", include_roles)
         if include_seed is not None:
             pulumi.set(__self__, "include_seed", include_seed)
-        if project_id is not None:
-            pulumi.set(__self__, "project_id", project_id)
+        if project_ref is not None:
+            pulumi.set(__self__, "project_ref", project_ref)
 
     @property
     @pulumi.getter
@@ -70,12 +70,12 @@ class MigrationArgs:
 
     @property
     @pulumi.getter
-    def project_id(self) -> Optional[pulumi.Input[str]]:
-        return pulumi.get(self, "project_id")
+    def project_ref(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "project_ref")
 
-    @project_id.setter
-    def project_id(self, value: Optional[pulumi.Input[str]]):
-        pulumi.set(self, "project_id", value)
+    @project_ref.setter
+    def project_ref(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "project_ref", value)
 
 
 class Migration(pulumi.CustomResource):
@@ -87,7 +87,7 @@ class Migration(pulumi.CustomResource):
                  include_all: Optional[pulumi.Input[bool]] = None,
                  include_roles: Optional[pulumi.Input[bool]] = None,
                  include_seed: Optional[pulumi.Input[bool]] = None,
-                 project_id: Optional[pulumi.Input[str]] = None,
+                 project_ref: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         Create a Migration resource with the given unique name, props, and options.
@@ -121,7 +121,7 @@ class Migration(pulumi.CustomResource):
                  include_all: Optional[pulumi.Input[bool]] = None,
                  include_roles: Optional[pulumi.Input[bool]] = None,
                  include_seed: Optional[pulumi.Input[bool]] = None,
-                 project_id: Optional[pulumi.Input[str]] = None,
+                 project_ref: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -137,9 +137,9 @@ class Migration(pulumi.CustomResource):
             __props__.__dict__["include_all"] = include_all
             __props__.__dict__["include_roles"] = include_roles
             __props__.__dict__["include_seed"] = include_seed
-            __props__.__dict__["project_id"] = project_id
+            __props__.__dict__["project_ref"] = project_ref
         super(Migration, __self__).__init__(
-            'supabase:v1:Migration',
+            'supabase:v0:Migration',
             resource_name,
             __props__,
             opts)
@@ -164,7 +164,7 @@ class Migration(pulumi.CustomResource):
         __props__.__dict__["include_all"] = None
         __props__.__dict__["include_roles"] = None
         __props__.__dict__["include_seed"] = None
-        __props__.__dict__["project_id"] = None
+        __props__.__dict__["project_ref"] = None
         return Migration(resource_name, opts=opts, __props__=__props__)
 
     @property
@@ -189,6 +189,6 @@ class Migration(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def project_id(self) -> pulumi.Output[Optional[str]]:
-        return pulumi.get(self, "project_id")
+    def project_ref(self) -> pulumi.Output[Optional[str]]:
+        return pulumi.get(self, "project_ref")
 

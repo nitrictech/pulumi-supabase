@@ -5,11 +5,6 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "../utilities";
 
 // Export members:
-export { MigrationArgs } from "./migration";
-export type Migration = import("./migration").Migration;
-export const Migration: typeof import("./migration").Migration = null as any;
-utilities.lazyLoad(exports, ["Migration"], () => require("./migration"));
-
 export { OrganizationArgs } from "./organization";
 export type Organization = import("./organization").Organization;
 export const Organization: typeof import("./organization").Organization = null as any;
@@ -30,8 +25,6 @@ const _module = {
     version: utilities.getVersion(),
     construct: (name: string, type: string, urn: string): pulumi.Resource => {
         switch (type) {
-            case "supabase:v1:Migration":
-                return new Migration(name, <any>undefined, { urn })
             case "supabase:v1:Organization":
                 return new Organization(name, <any>undefined, { urn })
             case "supabase:v1:Project":

@@ -29,6 +29,7 @@ _utilities.register(
   "fqn": "pulumi_supabase.v0",
   "classes": {
    "supabase:v0:Bucket": "Bucket",
+   "supabase:v0:Migration": "Migration",
    "supabase:v0:Organization": "Organization",
    "supabase:v0:Project": "Project"
   }
@@ -38,7 +39,6 @@ _utilities.register(
   "mod": "v1",
   "fqn": "pulumi_supabase.v1",
   "classes": {
-   "supabase:v1:Migration": "Migration",
    "supabase:v1:Organization": "Organization",
    "supabase:v1:Project": "Project",
    "supabase:v1:Secret": "Secret"

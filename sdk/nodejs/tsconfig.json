@@ -20,10 +20,10 @@
         "utilities.ts",
         "v0/bucket.ts",
         "v0/index.ts",
+        "v0/migration.ts",
         "v0/organization.ts",
         "v0/project.ts",
         "v1/index.ts",
-        "v1/migration.ts",
         "v1/organization.ts",
         "v1/project.ts",
         "v1/secret.ts"

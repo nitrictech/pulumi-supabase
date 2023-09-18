@@ -44,8 +44,8 @@ func NewProvider() p.Provider {
 			infer.Resource[supabase.Organization, supabase.OrganizationArgs, supabase.OrganizationState](),
 			infer.Resource[supabase.Project, supabase.ProjectArgs, supabase.ProjectState](),
 			infer.Resource[supabase.Secret, supabase.SecretArgs, supabase.SecretState](),
-			infer.Resource[supabase.Migration, supabase.MigrationArgs, supabase.MigrationState](),
 			// V0 API Resources
+			infer.Resource[supabaseExperimental.Migration, supabaseExperimental.MigrationArgs, supabaseExperimental.MigrationState](),
 			infer.Resource[supabaseExperimental.Organization, supabaseExperimental.OrganizationArgs, supabaseExperimental.OrganizationState](),
 			infer.Resource[supabaseExperimental.Project, supabaseExperimental.ProjectArgs, supabaseExperimental.ProjectState](),
 			infer.Resource[supabaseExperimental.Bucket, supabaseExperimental.BucketArgs, supabaseExperimental.BucketState](),

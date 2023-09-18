@@ -5,7 +5,6 @@
 from .. import _utilities
 import typing
 # Export this package's modules as members:
-from .migration import *
 from .organization import *
 from .project import *
 from .secret import *
