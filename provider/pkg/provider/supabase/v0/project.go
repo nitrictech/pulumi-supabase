@@ -1,13 +1,11 @@
 package v0
 
 import (
-	"database/sql"
 	"encoding/json"
 	"fmt"
 	"io"
 	"time"
 
-	_ "github.com/lib/pq"
 	supabase "github.com/nitrictech/pulumi-supabase/provider/pkg/api/supabase/v0"
 	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/config"
 	p "github.com/pulumi/pulumi-go-provider"
@@ -130,17 +128,25 @@ func (Project) Create(ctx p.Context, name string, input ProjectArgs, preview boo
 	state.ProjectEndpoint = projectResp.Endpoint
 
 	_, _, err = lo.AttemptWithDelay(15, 10*time.Second, func(index int, duration time.Duration) error {
-		postgresqlDbInfo := fmt.Sprintf("host=%s port=5432 user=postgres "+
-			"password=%s dbname=postgres",
-			state.DatabaseHost, input.DbPass)
-		db, err := sql.Open("postgres", postgresqlDbInfo)
+		resp, err := supabaseClient.GetProject(ctx, state.ProjectRef)
 		if err != nil {
 			return err
 		}
-		defer db.Close()
-		err = db.Ping()
+
+		projectInfo := supabase.ProjectInfo{}
+
+		body, err := io.ReadAll(resp.Body)
 		if err != nil {
-			return err
+			return fmt.Errorf("error reading response")
+		}
+
+		err = json.Unmarshal(body, &projectInfo)
+		if err != nil {
+			return fmt.Errorf("error unmarshalling response")
+		}
+
+		if projectInfo.Status != "ACTIVE_HEALTHY" {
+			return fmt.Errorf("project not healthy")
 		}
 
 		return nil

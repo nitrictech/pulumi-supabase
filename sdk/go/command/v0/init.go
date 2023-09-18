@@ -21,6 +21,8 @@ func (m *module) Version() semver.Version {
 
 func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi.Resource, err error) {
 	switch typ {
+	case "supabase:v0:Bucket":
+		r = &Bucket{}
 	case "supabase:v0:Organization":
 		r = &Organization{}
 	case "supabase:v0:Project":

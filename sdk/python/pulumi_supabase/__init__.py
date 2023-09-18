@@ -28,6 +28,7 @@ _utilities.register(
   "mod": "v0",
   "fqn": "pulumi_supabase.v0",
   "classes": {
+   "supabase:v0:Bucket": "Bucket",
    "supabase:v0:Organization": "Organization",
    "supabase:v0:Project": "Project"
   }

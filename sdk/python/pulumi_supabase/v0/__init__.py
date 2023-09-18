@@ -5,5 +5,6 @@
 from .. import _utilities
 import typing
 # Export this package's modules as members:
+from .bucket import *
 from .organization import *
 from .project import *

@@ -18,6 +18,7 @@
         "index.ts",
         "provider.ts",
         "utilities.ts",
+        "v0/bucket.ts",
         "v0/index.ts",
         "v0/organization.ts",
         "v0/project.ts",
