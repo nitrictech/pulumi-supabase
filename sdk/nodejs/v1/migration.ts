@@ -35,7 +35,7 @@ export class Migration extends pulumi.CustomResource {
     public readonly include_all!: pulumi.Output<boolean | undefined>;
     public readonly include_roles!: pulumi.Output<boolean | undefined>;
     public readonly include_seed!: pulumi.Output<boolean | undefined>;
-    public readonly project_id!: pulumi.Output<string>;
+    public readonly project_id!: pulumi.Output<string | undefined>;
 
     /**
      * Create a Migration resource with the given unique name, arguments, and options.
@@ -50,9 +50,6 @@ export class Migration extends pulumi.CustomResource {
         if (!opts.id) {
             if ((!args || args.db_password === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'db_password'");
-            }
-            if ((!args || args.project_id === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'project_id'");
             }
             resourceInputs["db_password"] = args ? args.db_password : undefined;
             resourceInputs["include_all"] = args ? args.include_all : undefined;
@@ -79,5 +76,5 @@ export interface MigrationArgs {
     include_all?: pulumi.Input<boolean>;
     include_roles?: pulumi.Input<boolean>;
     include_seed?: pulumi.Input<boolean>;
-    project_id: pulumi.Input<string>;
+    project_id?: pulumi.Input<string>;
 }

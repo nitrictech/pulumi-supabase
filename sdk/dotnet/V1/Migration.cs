@@ -25,7 +25,7 @@ namespace Pulumi.Supabase.V1
         public Output<bool?> Include_seed { get; private set; } = null!;
 
         [Output("project_id")]
-        public Output<string> Project_id { get; private set; } = null!;
+        public Output<string?> Project_id { get; private set; } = null!;
 
 
         /// <summary>
@@ -84,8 +84,8 @@ namespace Pulumi.Supabase.V1
         [Input("include_seed")]
         public Input<bool>? Include_seed { get; set; }
 
-        [Input("project_id", required: true)]
-        public Input<string> Project_id { get; set; } = null!;
+        [Input("project_id")]
+        public Input<string>? Project_id { get; set; }
 
         public MigrationArgs()
         {

@@ -23,7 +23,7 @@ type Migration struct{}
 // Each resource has in input struct, defining what arguments it accepts.
 type MigrationArgs struct {
 	// ProjectId - The remote host to apply the migration to
-	ProjectId string `pulumi:"project_id"`
+	ProjectId string `pulumi:"project_id,optional"`
 	// DbPassword - The database password
 	DbPassword string `pulumi:"db_password"`
 	// IncludeAll - Include all migrations not found on remote history table.
@@ -51,20 +51,25 @@ func (Migration) Create(ctx p.Context, name string, input MigrationArgs, preview
 		return name, state, fmt.Errorf("supabase CLI not installed, required to push remote migrations")
 	}
 
-	linkCmd := exec.Command(
-		"supabase",
-		"link",
-		"--project-ref",
-		input.ProjectId,
-	)
+	// linkCmd := exec.Command(
+	// 	"supabase",
+	// 	"link",
+	// 	"--project-ref",
+	// 	input.ProjectId,
+	// )
 
-	err := linkCmd.Run()
-	if err != nil {
-		return name, state, fmt.Errorf("failed to link supabase project %s: %w", input.ProjectId, err)
-	}
+	// err := linkCmd.Run()
+	// if err != nil {
+	// 	return name, state, fmt.Errorf("failed to link supabase project %s: %w", input.ProjectId, err)
+	// }
 
 	extraFlags := []string{
 		"db", "push", "-p", input.DbPassword,
+	}
+
+	if input.ProjectId != "" {
+		extraFlags = append(extraFlags, "--db-url")
+		extraFlags = append(extraFlags, fmt.Sprintf("postgresql://postgres:%s@db.%s.supabase.co:5432/postgres", input.DbPassword, input.ProjectId))
 	}
 
 	if input.IncludeAll {
@@ -89,7 +94,7 @@ func (Migration) Create(ctx p.Context, name string, input MigrationArgs, preview
 	migrateCmd.Stderr = &errb
 	migrateCmd.Stdout = &outb
 
-	err = migrateCmd.Run()
+	err := migrateCmd.Run()
 	if err != nil {
 		return name, state, fmt.Errorf("failed to apply migrations to project %s: %s, %s", input.ProjectId, outb.String(), errb.String())
 	}

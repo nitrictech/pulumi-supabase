@@ -15,21 +15,22 @@ __all__ = ['MigrationArgs', 'Migration']
 class MigrationArgs:
     def __init__(__self__, *,
                  db_password: pulumi.Input[str],
-                 project_id: pulumi.Input[str],
                  include_all: Optional[pulumi.Input[bool]] = None,
                  include_roles: Optional[pulumi.Input[bool]] = None,
-                 include_seed: Optional[pulumi.Input[bool]] = None):
+                 include_seed: Optional[pulumi.Input[bool]] = None,
+                 project_id: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Migration resource.
         """
         pulumi.set(__self__, "db_password", db_password)
-        pulumi.set(__self__, "project_id", project_id)
         if include_all is not None:
             pulumi.set(__self__, "include_all", include_all)
         if include_roles is not None:
             pulumi.set(__self__, "include_roles", include_roles)
         if include_seed is not None:
             pulumi.set(__self__, "include_seed", include_seed)
+        if project_id is not None:
+            pulumi.set(__self__, "project_id", project_id)
 
     @property
     @pulumi.getter
@@ -39,15 +40,6 @@ class MigrationArgs:
     @db_password.setter
     def db_password(self, value: pulumi.Input[str]):
         pulumi.set(self, "db_password", value)
-
-    @property
-    @pulumi.getter
-    def project_id(self) -> pulumi.Input[str]:
-        return pulumi.get(self, "project_id")
-
-    @project_id.setter
-    def project_id(self, value: pulumi.Input[str]):
-        pulumi.set(self, "project_id", value)
 
     @property
     @pulumi.getter
@@ -75,6 +67,15 @@ class MigrationArgs:
     @include_seed.setter
     def include_seed(self, value: Optional[pulumi.Input[bool]]):
         pulumi.set(self, "include_seed", value)
+
+    @property
+    @pulumi.getter
+    def project_id(self) -> Optional[pulumi.Input[str]]:
+        return pulumi.get(self, "project_id")
+
+    @project_id.setter
+    def project_id(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "project_id", value)
 
 
 class Migration(pulumi.CustomResource):
@@ -136,8 +137,6 @@ class Migration(pulumi.CustomResource):
             __props__.__dict__["include_all"] = include_all
             __props__.__dict__["include_roles"] = include_roles
             __props__.__dict__["include_seed"] = include_seed
-            if project_id is None and not opts.urn:
-                raise TypeError("Missing required property 'project_id'")
             __props__.__dict__["project_id"] = project_id
         super(Migration, __self__).__init__(
             'supabase:v1:Migration',
@@ -190,6 +189,6 @@ class Migration(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def project_id(self) -> pulumi.Output[str]:
+    def project_id(self) -> pulumi.Output[Optional[str]]:
         return pulumi.get(self, "project_id")
 

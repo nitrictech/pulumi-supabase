@@ -14,11 +14,11 @@ import (
 type Migration struct {
 	pulumi.CustomResourceState
 
-	Db_password   pulumi.StringOutput  `pulumi:"db_password"`
-	Include_all   pulumi.BoolPtrOutput `pulumi:"include_all"`
-	Include_roles pulumi.BoolPtrOutput `pulumi:"include_roles"`
-	Include_seed  pulumi.BoolPtrOutput `pulumi:"include_seed"`
-	Project_id    pulumi.StringOutput  `pulumi:"project_id"`
+	Db_password   pulumi.StringOutput    `pulumi:"db_password"`
+	Include_all   pulumi.BoolPtrOutput   `pulumi:"include_all"`
+	Include_roles pulumi.BoolPtrOutput   `pulumi:"include_roles"`
+	Include_seed  pulumi.BoolPtrOutput   `pulumi:"include_seed"`
+	Project_id    pulumi.StringPtrOutput `pulumi:"project_id"`
 }
 
 // NewMigration registers a new resource with the given unique name, arguments, and options.
@@ -30,9 +30,6 @@ func NewMigration(ctx *pulumi.Context,
 
 	if args.Db_password == nil {
 		return nil, errors.New("invalid value for required argument 'Db_password'")
-	}
-	if args.Project_id == nil {
-		return nil, errors.New("invalid value for required argument 'Project_id'")
 	}
 	var resource Migration
 	err := ctx.RegisterResource("supabase:v1:Migration", name, args, &resource, opts...)
@@ -66,11 +63,11 @@ func (MigrationState) ElementType() reflect.Type {
 }
 
 type migrationArgs struct {
-	Db_password   string `pulumi:"db_password"`
-	Include_all   *bool  `pulumi:"include_all"`
-	Include_roles *bool  `pulumi:"include_roles"`
-	Include_seed  *bool  `pulumi:"include_seed"`
-	Project_id    string `pulumi:"project_id"`
+	Db_password   string  `pulumi:"db_password"`
+	Include_all   *bool   `pulumi:"include_all"`
+	Include_roles *bool   `pulumi:"include_roles"`
+	Include_seed  *bool   `pulumi:"include_seed"`
+	Project_id    *string `pulumi:"project_id"`
 }
 
 // The set of arguments for constructing a Migration resource.
@@ -79,7 +76,7 @@ type MigrationArgs struct {
 	Include_all   pulumi.BoolPtrInput
 	Include_roles pulumi.BoolPtrInput
 	Include_seed  pulumi.BoolPtrInput
-	Project_id    pulumi.StringInput
+	Project_id    pulumi.StringPtrInput
 }
 
 func (MigrationArgs) ElementType() reflect.Type {
@@ -185,8 +182,8 @@ func (o MigrationOutput) Include_seed() pulumi.BoolPtrOutput {
 	return o.ApplyT(func(v *Migration) pulumi.BoolPtrOutput { return v.Include_seed }).(pulumi.BoolPtrOutput)
 }
 
-func (o MigrationOutput) Project_id() pulumi.StringOutput {
-	return o.ApplyT(func(v *Migration) pulumi.StringOutput { return v.Project_id }).(pulumi.StringOutput)
+func (o MigrationOutput) Project_id() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Migration) pulumi.StringPtrOutput { return v.Project_id }).(pulumi.StringPtrOutput)
 }
 
 type MigrationArrayOutput struct{ *pulumi.OutputState }
