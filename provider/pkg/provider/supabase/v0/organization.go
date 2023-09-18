@@ -1,4 +1,4 @@
-package supabase
+package v0
 
 import (
 	"encoding/json"
@@ -35,7 +35,7 @@ type OrganizationState struct {
 	// It is generally a good idea to embed args in outputs, but it isn't strictly necessary.
 	OrganizationArgs
 
-	OrganizationId   string `pulumi:"organization_id"`
+	OrganizationId   int64  `pulumi:"organization_id"`
 	OrganizationSlug string `pulumi:"organization_slug"`
 	OrganizationName string `pulumi:"organization_name"`
 }
@@ -86,7 +86,7 @@ func (Organization) Create(ctx p.Context, name string, input OrganizationArgs, p
 	}
 
 	state.OrganizationName = orgResp.Name
-	state.OrganizationId = fmt.Sprintf("%2f", orgResp.Id)
+	state.OrganizationId = int64(orgResp.Id)
 	state.OrganizationSlug = orgResp.Slug
 
 	return name, state, nil

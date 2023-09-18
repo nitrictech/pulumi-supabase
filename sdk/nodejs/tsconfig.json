@@ -20,6 +20,7 @@
         "utilities.ts",
         "v0/index.ts",
         "v0/organization.ts",
+        "v0/project.ts",
         "v1/index.ts",
         "v1/migration.ts",
         "v1/organization.ts",

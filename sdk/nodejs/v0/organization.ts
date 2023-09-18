@@ -32,7 +32,7 @@ export class Organization extends pulumi.CustomResource {
     }
 
     public readonly name!: pulumi.Output<string | undefined>;
-    public /*out*/ readonly organization_id!: pulumi.Output<string>;
+    public /*out*/ readonly organization_id!: pulumi.Output<number>;
     public /*out*/ readonly organization_name!: pulumi.Output<string>;
     public /*out*/ readonly organization_slug!: pulumi.Output<string>;
 

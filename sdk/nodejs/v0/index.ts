@@ -10,6 +10,11 @@ export type Organization = import("./organization").Organization;
 export const Organization: typeof import("./organization").Organization = null as any;
 utilities.lazyLoad(exports, ["Organization"], () => require("./organization"));
 
+export { ProjectArgs } from "./project";
+export type Project = import("./project").Project;
+export const Project: typeof import("./project").Project = null as any;
+utilities.lazyLoad(exports, ["Project"], () => require("./project"));
+
 
 const _module = {
     version: utilities.getVersion(),
@@ -17,6 +22,8 @@ const _module = {
         switch (type) {
             case "supabase:v0:Organization":
                 return new Organization(name, <any>undefined, { urn })
+            case "supabase:v0:Project":
+                return new Project(name, <any>undefined, { urn })
             default:
                 throw new Error(`unknown resource type ${type}`);
         }

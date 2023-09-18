@@ -115,7 +115,7 @@ class Organization(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def organization_id(self) -> pulumi.Output[str]:
+    def organization_id(self) -> pulumi.Output[int]:
         return pulumi.get(self, "organization_id")
 
     @property

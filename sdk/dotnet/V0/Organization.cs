@@ -16,7 +16,7 @@ namespace Pulumi.Supabase.V0
         public Output<string?> Name { get; private set; } = null!;
 
         [Output("organization_id")]
-        public Output<string> Organization_id { get; private set; } = null!;
+        public Output<int> Organization_id { get; private set; } = null!;
 
         [Output("organization_name")]
         public Output<string> Organization_name { get; private set; } = null!;

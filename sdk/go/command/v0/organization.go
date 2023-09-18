@@ -14,7 +14,7 @@ type Organization struct {
 	pulumi.CustomResourceState
 
 	Name              pulumi.StringPtrOutput `pulumi:"name"`
-	Organization_id   pulumi.StringOutput    `pulumi:"organization_id"`
+	Organization_id   pulumi.IntOutput       `pulumi:"organization_id"`
 	Organization_name pulumi.StringOutput    `pulumi:"organization_name"`
 	Organization_slug pulumi.StringOutput    `pulumi:"organization_slug"`
 }
@@ -157,8 +157,8 @@ func (o OrganizationOutput) Name() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Organization) pulumi.StringPtrOutput { return v.Name }).(pulumi.StringPtrOutput)
 }
 
-func (o OrganizationOutput) Organization_id() pulumi.StringOutput {
-	return o.ApplyT(func(v *Organization) pulumi.StringOutput { return v.Organization_id }).(pulumi.StringOutput)
+func (o OrganizationOutput) Organization_id() pulumi.IntOutput {
+	return o.ApplyT(func(v *Organization) pulumi.IntOutput { return v.Organization_id }).(pulumi.IntOutput)
 }
 
 func (o OrganizationOutput) Organization_name() pulumi.StringOutput {
