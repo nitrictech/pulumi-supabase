@@ -11,24 +11,35 @@ from .provider import *
 if typing.TYPE_CHECKING:
     import pulumi_supabase.config as __config
     config = __config
-    import pulumi_supabase.supabase as __supabase
-    supabase = __supabase
+    import pulumi_supabase.v0 as __v0
+    v0 = __v0
+    import pulumi_supabase.v1 as __v1
+    v1 = __v1
 else:
     config = _utilities.lazy_import('pulumi_supabase.config')
-    supabase = _utilities.lazy_import('pulumi_supabase.supabase')
+    v0 = _utilities.lazy_import('pulumi_supabase.v0')
+    v1 = _utilities.lazy_import('pulumi_supabase.v1')
 
 _utilities.register(
     resource_modules="""
 [
  {
   "pkg": "supabase",
-  "mod": "supabase",
-  "fqn": "pulumi_supabase.supabase",
+  "mod": "v0",
+  "fqn": "pulumi_supabase.v0",
   "classes": {
-   "supabase:supabase:Migration": "Migration",
-   "supabase:supabase:Organization": "Organization",
-   "supabase:supabase:Project": "Project",
-   "supabase:supabase:Secret": "Secret"
+   "supabase:v0:Organization": "Organization"
+  }
+ },
+ {
+  "pkg": "supabase",
+  "mod": "v1",
+  "fqn": "pulumi_supabase.v1",
+  "classes": {
+   "supabase:v1:Migration": "Migration",
+   "supabase:v1:Organization": "Organization",
+   "supabase:v1:Project": "Project",
+   "supabase:v1:Secret": "Secret"
   }
  }
 ]

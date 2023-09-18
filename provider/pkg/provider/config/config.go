@@ -11,6 +11,7 @@ import (
 )
 
 const defaultApiHost = "https://api.supabase.com"
+const defaultExpApiHost = "https://api.supabase.io"
 
 type Config struct {
 	Token              string `pulumi:"token"`
@@ -45,7 +46,7 @@ func (c *Config) Configure(ctx p.Context) error {
 		return fmt.Errorf("unable to create supabase API client: %w", err)
 	}
 
-	experimentalClient, err := v0.NewClient(defaultApiHost, v0.WithAuthToken(token))
+	experimentalClient, err := v0.NewClient(defaultExpApiHost, v0.WithAuthToken(token))
 	if err != nil {
 		return fmt.Errorf("unable to create supabase API client: %w", err)
 	}

@@ -17,11 +17,13 @@
         "config/vars.ts",
         "index.ts",
         "provider.ts",
-        "supabase/index.ts",
-        "supabase/migration.ts",
-        "supabase/organization.ts",
-        "supabase/project.ts",
-        "supabase/secret.ts",
-        "utilities.ts"
+        "utilities.ts",
+        "v0/index.ts",
+        "v0/organization.ts",
+        "v1/index.ts",
+        "v1/migration.ts",
+        "v1/organization.ts",
+        "v1/project.ts",
+        "v1/secret.ts"
     ]
 }

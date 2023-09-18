@@ -2,7 +2,8 @@ package provider
 
 import (
 	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/config"
-	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/supabase"
+	supabaseExperimental "github.com/nitrictech/pulumi-supabase/provider/pkg/provider/supabase/v0"
+	supabase "github.com/nitrictech/pulumi-supabase/provider/pkg/provider/supabase/v1"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
@@ -43,6 +44,7 @@ func NewProvider() p.Provider {
 			infer.Resource[supabase.Project, supabase.ProjectArgs, supabase.ProjectState](),
 			infer.Resource[supabase.Secret, supabase.SecretArgs, supabase.SecretState](),
 			infer.Resource[supabase.Migration, supabase.MigrationArgs, supabase.MigrationState](),
+			infer.Resource[supabaseExperimental.Organization, supabaseExperimental.OrganizationArgs, supabaseExperimental.OrganizationState](),
 		},
 		Config: infer.Config[*config.Config](),
 	})
