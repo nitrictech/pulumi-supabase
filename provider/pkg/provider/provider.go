@@ -43,7 +43,6 @@ func NewProvider() p.Provider {
 			// Adding into the v0 package for now to save on confusion
 			infer.Resource[supabase.Secret, supabase.SecretArgs, supabase.SecretState](),
 			// V0 API Resources
-			infer.Resource[supabase.Migration, supabase.MigrationArgs, supabase.MigrationState](),
 			infer.Resource[supabase.Organization, supabase.OrganizationArgs, supabase.OrganizationState](),
 			infer.Resource[supabase.Project, supabase.ProjectArgs, supabase.ProjectState](),
 			infer.Resource[supabase.Bucket, supabase.BucketArgs, supabase.BucketState](),
