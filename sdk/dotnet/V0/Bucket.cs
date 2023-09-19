@@ -15,6 +15,9 @@ namespace Pulumi.Supabase.V0
         [Output("allowed_mime_types")]
         public Output<ImmutableArray<string>> Allowed_mime_types { get; private set; } = null!;
 
+        [Output("bucket_name")]
+        public Output<string> Bucket_name { get; private set; } = null!;
+
         [Output("file_size_limit")]
         public Output<int?> File_size_limit { get; private set; } = null!;
 

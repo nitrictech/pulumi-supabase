@@ -138,6 +138,7 @@ class Bucket(pulumi.CustomResource):
                 raise TypeError("Missing required property 'project_ref'")
             __props__.__dict__["project_ref"] = project_ref
             __props__.__dict__["public"] = public
+            __props__.__dict__["bucket_name"] = None
         super(Bucket, __self__).__init__(
             'supabase:v0:Bucket',
             resource_name,
@@ -161,6 +162,7 @@ class Bucket(pulumi.CustomResource):
         __props__ = BucketArgs.__new__(BucketArgs)
 
         __props__.__dict__["allowed_mime_types"] = None
+        __props__.__dict__["bucket_name"] = None
         __props__.__dict__["file_size_limit"] = None
         __props__.__dict__["name"] = None
         __props__.__dict__["project_ref"] = None
@@ -171,6 +173,11 @@ class Bucket(pulumi.CustomResource):
     @pulumi.getter
     def allowed_mime_types(self) -> pulumi.Output[Optional[Sequence[str]]]:
         return pulumi.get(self, "allowed_mime_types")
+
+    @property
+    @pulumi.getter
+    def bucket_name(self) -> pulumi.Output[str]:
+        return pulumi.get(self, "bucket_name")
 
     @property
     @pulumi.getter

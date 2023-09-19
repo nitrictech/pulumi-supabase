@@ -32,6 +32,7 @@ export class Bucket extends pulumi.CustomResource {
     }
 
     public readonly allowed_mime_types!: pulumi.Output<string[] | undefined>;
+    public /*out*/ readonly bucket_name!: pulumi.Output<string>;
     public readonly file_size_limit!: pulumi.Output<number | undefined>;
     public readonly name!: pulumi.Output<string | undefined>;
     public readonly project_ref!: pulumi.Output<string>;
@@ -56,8 +57,10 @@ export class Bucket extends pulumi.CustomResource {
             resourceInputs["name"] = args ? args.name : undefined;
             resourceInputs["project_ref"] = args ? args.project_ref : undefined;
             resourceInputs["public"] = args ? args.public : undefined;
+            resourceInputs["bucket_name"] = undefined /*out*/;
         } else {
             resourceInputs["allowed_mime_types"] = undefined /*out*/;
+            resourceInputs["bucket_name"] = undefined /*out*/;
             resourceInputs["file_size_limit"] = undefined /*out*/;
             resourceInputs["name"] = undefined /*out*/;
             resourceInputs["project_ref"] = undefined /*out*/;

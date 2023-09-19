@@ -15,6 +15,7 @@ type Bucket struct {
 	pulumi.CustomResourceState
 
 	Allowed_mime_types pulumi.StringArrayOutput `pulumi:"allowed_mime_types"`
+	Bucket_name        pulumi.StringOutput      `pulumi:"bucket_name"`
 	File_size_limit    pulumi.IntPtrOutput      `pulumi:"file_size_limit"`
 	Name               pulumi.StringPtrOutput   `pulumi:"name"`
 	Project_ref        pulumi.StringOutput      `pulumi:"project_ref"`
@@ -168,6 +169,10 @@ func (o BucketOutput) ToBucketOutputWithContext(ctx context.Context) BucketOutpu
 
 func (o BucketOutput) Allowed_mime_types() pulumi.StringArrayOutput {
 	return o.ApplyT(func(v *Bucket) pulumi.StringArrayOutput { return v.Allowed_mime_types }).(pulumi.StringArrayOutput)
+}
+
+func (o BucketOutput) Bucket_name() pulumi.StringOutput {
+	return o.ApplyT(func(v *Bucket) pulumi.StringOutput { return v.Bucket_name }).(pulumi.StringOutput)
 }
 
 func (o BucketOutput) File_size_limit() pulumi.IntPtrOutput {

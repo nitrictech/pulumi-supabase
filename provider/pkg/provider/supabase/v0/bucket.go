@@ -32,7 +32,7 @@ type BucketState struct {
 	BucketArgs
 
 	// The final name of the created bucket
-	BucketName string
+	BucketName string `pulumi:"bucket_name"`
 }
 
 // All resources must implement Create at a minumum.
