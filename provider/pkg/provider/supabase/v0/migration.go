@@ -27,11 +27,11 @@ type MigrationArgs struct {
 	// DbPassword - The database password
 	DbPassword string `pulumi:"db_password"`
 	// IncludeAll - Include all migrations not found on remote history table.
-	IncludeAll bool `pulumi:"include_all,optional"`
+	IncludeAll *bool `pulumi:"include_all,optional"`
 	// IncludeRoles - Include custom roles from supabase/roles.sql.
-	IncludeRoles bool `pulumi:"include_roles,optional"`
+	IncludeRoles *bool `pulumi:"include_roles,optional"`
 	// IncludeSeed - Include seed data from supabase/seed.sql.
-	IncludeSeed bool `pulumi:"include_seed,optional"`
+	IncludeSeed *bool `pulumi:"include_seed,optional"`
 }
 
 // Each resource has a state, describing the fields that exist on the created resource.
@@ -60,15 +60,15 @@ func (Migration) Create(ctx p.Context, name string, input MigrationArgs, preview
 		extraFlags = append(extraFlags, fmt.Sprintf("postgresql://postgres:%s@db.%s.supabase.co:5432/postgres", input.DbPassword, input.ProjectRef))
 	}
 
-	if input.IncludeAll {
+	if input.IncludeAll != nil && *input.IncludeAll {
 		extraFlags = append(extraFlags, "--include-all")
 	}
 
-	if input.IncludeRoles {
+	if input.IncludeRoles != nil && *input.IncludeRoles {
 		extraFlags = append(extraFlags, "--include-roles")
 	}
 
-	if input.IncludeSeed {
+	if input.IncludeSeed != nil && *input.IncludeSeed {
 		extraFlags = append(extraFlags, "--include-seed")
 	}
 

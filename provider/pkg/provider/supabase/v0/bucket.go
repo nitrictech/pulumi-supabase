@@ -17,24 +17,36 @@ type Bucket struct{}
 // Each resource has in input struct, defining what arguments it accepts.
 type BucketArgs struct {
 	// The name of the organization to create, if not provided one will be generated from the resource name
-	Name string `pulumi:"name,optional"`
+	Name *string `pulumi:"name,optional"`
 
 	ProjectRef string `pulumi:"project_ref"`
 
 	AllowedMimeTypes []string `pulumi:"allowed_mime_types,optional"`
-	FileSizeLimit    int64    `pulumi:"file_size_limit,optional"`
-	Public           bool     `pulumi:"public,optional"`
+	FileSizeLimit    *int64   `pulumi:"file_size_limit,optional"`
+	Public           *bool    `pulumi:"public,optional"`
 }
 
 // Each resource has a state, describing the fields that exist on the created resource.
 type BucketState struct {
 	// It is generally a good idea to embed args in outputs, but it isn't strictly necessary.
 	BucketArgs
+
+	// The final name of the created bucket
+	BucketName string
 }
 
 // All resources must implement Create at a minumum.
 func (Bucket) Create(ctx p.Context, name string, input BucketArgs, preview bool) (string, BucketState, error) {
-	state := BucketState{BucketArgs: input}
+	bucketName := name
+	if input.Name != nil && *input.Name != "" {
+		// TODO: Add random value
+		bucketName = *input.Name
+	}
+
+	state := BucketState{
+		BucketArgs: input,
+		BucketName: bucketName,
+	}
 	if preview {
 		return name, state, nil
 	}
@@ -42,22 +54,26 @@ func (Bucket) Create(ctx p.Context, name string, input BucketArgs, preview bool)
 	config := infer.GetConfig[config.Config](ctx)
 	supabaseClient := config.ExperimentalClient
 
-	state.Name = name
-	if input.Name != "" {
-		// TODO: Add random value
-		state.Name = input.Name
-	}
-
 	allowedMimeTypes := input.AllowedMimeTypes
 	if len(allowedMimeTypes) < 1 {
 		allowedMimeTypes = nil
 	}
 
-	_, _, err := lo.AttemptWithDelay(3, 5*time.Second, func(index int, duration time.Duration) error {
+	public := false
+	if input.Public != nil {
+		public = *input.Public
+	}
+
+	var fileSizeLimit int64 = 0
+	if input.FileSizeLimit != nil {
+		fileSizeLimit = *input.FileSizeLimit
+	}
+
+	_, _, err := lo.AttemptWithDelay(5, 5*time.Second, func(index int, duration time.Duration) error {
 		resp, err := supabaseClient.CreateBucket(ctx, input.ProjectRef, supabase.CreateStorageBucketBody{
-			Id:               state.Name,
-			Public:           input.Public,
-			FileSizeLimit:    float32(input.FileSizeLimit),
+			Id:               bucketName,
+			Public:           public,
+			FileSizeLimit:    float32(fileSizeLimit),
 			AllowedMimeTypes: allowedMimeTypes,
 		})
 		if err != nil {
@@ -83,7 +99,7 @@ func (Bucket) Delete(ctx p.Context, name string, state BucketState) error {
 	config := infer.GetConfig[config.Config](ctx)
 	supabaseClient := config.ExperimentalClient
 
-	resp, err := supabaseClient.DeleteBucket(ctx, state.ProjectRef, state.Name)
+	resp, err := supabaseClient.DeleteBucket(ctx, state.ProjectRef, state.BucketName)
 	if err != nil {
 		return err
 	}
