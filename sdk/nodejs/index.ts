@@ -13,13 +13,11 @@ utilities.lazyLoad(exports, ["Provider"], () => require("./provider"));
 
 // Export sub-modules:
 import * as config from "./config";
-import * as v0 from "./v0";
-import * as v1 from "./v1";
+import * as supabase from "./supabase";
 
 export {
     config,
-    v0,
-    v1,
+    supabase,
 };
 pulumi.runtime.registerResourcePackage("supabase", {
     version: utilities.getVersion(),

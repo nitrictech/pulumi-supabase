@@ -2,8 +2,7 @@ package provider
 
 import (
 	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/config"
-	supabaseExperimental "github.com/nitrictech/pulumi-supabase/provider/pkg/provider/supabase/v0"
-	supabase "github.com/nitrictech/pulumi-supabase/provider/pkg/provider/supabase/v1"
+	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/supabase"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
@@ -41,14 +40,13 @@ func NewProvider() p.Provider {
 		},
 		Resources: []infer.InferredResource{
 			// V1 API Resources
-			infer.Resource[supabase.Organization, supabase.OrganizationArgs, supabase.OrganizationState](),
-			infer.Resource[supabase.Project, supabase.ProjectArgs, supabase.ProjectState](),
+			// Adding into the v0 package for now to save on confusion
 			infer.Resource[supabase.Secret, supabase.SecretArgs, supabase.SecretState](),
 			// V0 API Resources
-			infer.Resource[supabaseExperimental.Migration, supabaseExperimental.MigrationArgs, supabaseExperimental.MigrationState](),
-			infer.Resource[supabaseExperimental.Organization, supabaseExperimental.OrganizationArgs, supabaseExperimental.OrganizationState](),
-			infer.Resource[supabaseExperimental.Project, supabaseExperimental.ProjectArgs, supabaseExperimental.ProjectState](),
-			infer.Resource[supabaseExperimental.Bucket, supabaseExperimental.BucketArgs, supabaseExperimental.BucketState](),
+			infer.Resource[supabase.Migration, supabase.MigrationArgs, supabase.MigrationState](),
+			infer.Resource[supabase.Organization, supabase.OrganizationArgs, supabase.OrganizationState](),
+			infer.Resource[supabase.Project, supabase.ProjectArgs, supabase.ProjectState](),
+			infer.Resource[supabase.Bucket, supabase.BucketArgs, supabase.BucketState](),
 		},
 		Config: infer.Config[*config.Config](),
 	})

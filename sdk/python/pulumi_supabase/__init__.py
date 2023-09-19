@@ -11,37 +11,25 @@ from .provider import *
 if typing.TYPE_CHECKING:
     import pulumi_supabase.config as __config
     config = __config
-    import pulumi_supabase.v0 as __v0
-    v0 = __v0
-    import pulumi_supabase.v1 as __v1
-    v1 = __v1
+    import pulumi_supabase.supabase as __supabase
+    supabase = __supabase
 else:
     config = _utilities.lazy_import('pulumi_supabase.config')
-    v0 = _utilities.lazy_import('pulumi_supabase.v0')
-    v1 = _utilities.lazy_import('pulumi_supabase.v1')
+    supabase = _utilities.lazy_import('pulumi_supabase.supabase')
 
 _utilities.register(
     resource_modules="""
 [
  {
   "pkg": "supabase",
-  "mod": "v0",
-  "fqn": "pulumi_supabase.v0",
+  "mod": "supabase",
+  "fqn": "pulumi_supabase.supabase",
   "classes": {
-   "supabase:v0:Bucket": "Bucket",
-   "supabase:v0:Migration": "Migration",
-   "supabase:v0:Organization": "Organization",
-   "supabase:v0:Project": "Project"
-  }
- },
- {
-  "pkg": "supabase",
-  "mod": "v1",
-  "fqn": "pulumi_supabase.v1",
-  "classes": {
-   "supabase:v1:Organization": "Organization",
-   "supabase:v1:Project": "Project",
-   "supabase:v1:Secret": "Secret"
+   "supabase:supabase:Bucket": "Bucket",
+   "supabase:supabase:Migration": "Migration",
+   "supabase:supabase:Organization": "Organization",
+   "supabase:supabase:Project": "Project",
+   "supabase:supabase:Secret": "Secret"
   }
  }
 ]
