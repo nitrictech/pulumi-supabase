@@ -15,14 +15,18 @@
     "files": [
         "config/index.ts",
         "config/vars.ts",
+        "functions/dbFunction.ts",
+        "functions/index.ts",
         "index.ts",
+        "organizations/index.ts",
+        "organizations/organization.ts",
+        "projects/index.ts",
+        "projects/project.ts",
         "provider.ts",
-        "supabase/bucket.ts",
-        "supabase/index.ts",
-        "supabase/organization.ts",
-        "supabase/pgFunction.ts",
-        "supabase/project.ts",
-        "supabase/secret.ts",
+        "secrets/index.ts",
+        "secrets/secret.ts",
+        "storage/bucket.ts",
+        "storage/index.ts",
         "utilities.ts"
     ]
 }
