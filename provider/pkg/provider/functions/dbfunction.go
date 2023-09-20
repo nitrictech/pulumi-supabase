@@ -7,6 +7,7 @@ import (
 
 	supabase "github.com/nitrictech/pulumi-supabase/provider/pkg/api/supabase/v0"
 	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/config"
+	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/projects"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 )
@@ -34,7 +35,7 @@ type DbFunctionArgs struct {
 
 	Schema string `pulumi:"schema"`
 
-	SecurityDefiner bool `pulumi:"verify_jwt"`
+	SecurityDefiner bool `pulumi:"security_definer"`
 }
 
 // Each resource has a state, describing the fields that exist on the created resource.
@@ -43,6 +44,8 @@ type DbFunctionState struct {
 	DbFunctionArgs
 
 	FunctionName string `pulumi:"function_name"`
+
+	Id int64 `pulumi:"function_id"`
 }
 
 // All resources must implement Create at a minumum.
@@ -70,23 +73,13 @@ func (DbFunction) Create(ctx p.Context, name string, input DbFunctionArgs, previ
 	config := infer.GetConfig[config.Config](ctx)
 	supabaseClient := config.ExperimentalClient
 
-	projResp, err := supabaseClient.GetProject(ctx, input.ProjectRef)
+	projectDetails, err := projects.GetProjectDetails(ctx, input.ProjectRef)
 	if err != nil {
-		return name, state, err
-	}
-
-	projBody, err := io.ReadAll(projResp.Body)
-	if err != nil {
-		return name, state, err
-	}
-
-	project := &supabase.ProjectDetailResponse{}
-	if err := json.Unmarshal(projBody, project); err != nil {
 		return name, state, err
 	}
 
 	resp, err := supabaseClient.CreateFunction(ctx, input.ProjectRef, &supabase.CreateFunctionParams{
-		XConnectionEncrypted: project.ConnectionString,
+		XConnectionEncrypted: projectDetails.ConnectionString,
 	}, supabase.CreateFunctionBody{
 		Args:            args,
 		Behavior:        supabase.CreateFunctionBodyBehavior(input.Behavior),
@@ -109,5 +102,38 @@ func (DbFunction) Create(ctx p.Context, name string, input DbFunctionArgs, previ
 		return name, state, fmt.Errorf("received non 200 status: %d: %s", resp.StatusCode, string(respBody))
 	}
 
+	function := &supabase.PostgresFunction{}
+
+	if err := json.Unmarshal(respBody, function); err != nil {
+		return name, state, err
+	}
+	state.Id = int64(function.Id)
+
 	return name, state, nil
+}
+
+func (DbFunction) Delete(ctx p.Context, name string, state DbFunctionState) error {
+	config := infer.GetConfig[config.Config](ctx)
+	supabaseClient := config.ExperimentalClient
+
+	projectDetails, err := projects.GetProjectDetails(ctx, state.ProjectRef)
+	if err != nil {
+		return err
+	}
+
+	resp, err := supabaseClient.DeleteFunction(ctx, state.ProjectRef, &supabase.DeleteFunctionParams{
+		Id:                   float32(state.Id),
+		XConnectionEncrypted: projectDetails.ConnectionString,
+	})
+	if err != nil {
+		return err
+	}
+
+	if resp.StatusCode/100 != 2 {
+		respBody, _ := io.ReadAll(resp.Body)
+		// If not a 200 status
+		return fmt.Errorf("received non 200 status: %d: %s", resp.StatusCode, string(respBody))
+	}
+
+	return nil
 }

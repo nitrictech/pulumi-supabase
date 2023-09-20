@@ -14,17 +14,18 @@ import (
 type DbFunction struct {
 	pulumi.CustomResourceState
 
-	Args          pulumi.StringArrayOutput `pulumi:"args"`
-	Behaviour     pulumi.StringOutput      `pulumi:"behaviour"`
-	Config_params pulumi.MapOutput         `pulumi:"config_params"`
-	Definition    pulumi.StringOutput      `pulumi:"definition"`
-	Function_name pulumi.StringOutput      `pulumi:"function_name"`
-	Language      pulumi.StringOutput      `pulumi:"language"`
-	Name          pulumi.StringPtrOutput   `pulumi:"name"`
-	Project_ref   pulumi.StringOutput      `pulumi:"project_ref"`
-	Return_type   pulumi.StringOutput      `pulumi:"return_type"`
-	Schema        pulumi.StringOutput      `pulumi:"schema"`
-	Verify_jwt    pulumi.BoolOutput        `pulumi:"verify_jwt"`
+	Args             pulumi.StringArrayOutput `pulumi:"args"`
+	Behaviour        pulumi.StringOutput      `pulumi:"behaviour"`
+	Config_params    pulumi.MapOutput         `pulumi:"config_params"`
+	Definition       pulumi.StringOutput      `pulumi:"definition"`
+	Function_id      pulumi.IntOutput         `pulumi:"function_id"`
+	Function_name    pulumi.StringOutput      `pulumi:"function_name"`
+	Language         pulumi.StringOutput      `pulumi:"language"`
+	Name             pulumi.StringPtrOutput   `pulumi:"name"`
+	Project_ref      pulumi.StringOutput      `pulumi:"project_ref"`
+	Return_type      pulumi.StringOutput      `pulumi:"return_type"`
+	Schema           pulumi.StringOutput      `pulumi:"schema"`
+	Security_definer pulumi.BoolOutput        `pulumi:"security_definer"`
 }
 
 // NewDbFunction registers a new resource with the given unique name, arguments, and options.
@@ -52,8 +53,8 @@ func NewDbFunction(ctx *pulumi.Context,
 	if args.Schema == nil {
 		return nil, errors.New("invalid value for required argument 'Schema'")
 	}
-	if args.Verify_jwt == nil {
-		return nil, errors.New("invalid value for required argument 'Verify_jwt'")
+	if args.Security_definer == nil {
+		return nil, errors.New("invalid value for required argument 'Security_definer'")
 	}
 	var resource DbFunction
 	err := ctx.RegisterResource("supabase:functions:DbFunction", name, args, &resource, opts...)
@@ -87,30 +88,30 @@ func (DbFunctionState) ElementType() reflect.Type {
 }
 
 type dbFunctionArgs struct {
-	Args          []string               `pulumi:"args"`
-	Behaviour     string                 `pulumi:"behaviour"`
-	Config_params map[string]interface{} `pulumi:"config_params"`
-	Definition    string                 `pulumi:"definition"`
-	Language      string                 `pulumi:"language"`
-	Name          *string                `pulumi:"name"`
-	Project_ref   string                 `pulumi:"project_ref"`
-	Return_type   string                 `pulumi:"return_type"`
-	Schema        string                 `pulumi:"schema"`
-	Verify_jwt    bool                   `pulumi:"verify_jwt"`
+	Args             []string               `pulumi:"args"`
+	Behaviour        string                 `pulumi:"behaviour"`
+	Config_params    map[string]interface{} `pulumi:"config_params"`
+	Definition       string                 `pulumi:"definition"`
+	Language         string                 `pulumi:"language"`
+	Name             *string                `pulumi:"name"`
+	Project_ref      string                 `pulumi:"project_ref"`
+	Return_type      string                 `pulumi:"return_type"`
+	Schema           string                 `pulumi:"schema"`
+	Security_definer bool                   `pulumi:"security_definer"`
 }
 
 // The set of arguments for constructing a DbFunction resource.
 type DbFunctionArgs struct {
-	Args          pulumi.StringArrayInput
-	Behaviour     pulumi.StringInput
-	Config_params pulumi.MapInput
-	Definition    pulumi.StringInput
-	Language      pulumi.StringInput
-	Name          pulumi.StringPtrInput
-	Project_ref   pulumi.StringInput
-	Return_type   pulumi.StringInput
-	Schema        pulumi.StringInput
-	Verify_jwt    pulumi.BoolInput
+	Args             pulumi.StringArrayInput
+	Behaviour        pulumi.StringInput
+	Config_params    pulumi.MapInput
+	Definition       pulumi.StringInput
+	Language         pulumi.StringInput
+	Name             pulumi.StringPtrInput
+	Project_ref      pulumi.StringInput
+	Return_type      pulumi.StringInput
+	Schema           pulumi.StringInput
+	Security_definer pulumi.BoolInput
 }
 
 func (DbFunctionArgs) ElementType() reflect.Type {
@@ -216,6 +217,10 @@ func (o DbFunctionOutput) Definition() pulumi.StringOutput {
 	return o.ApplyT(func(v *DbFunction) pulumi.StringOutput { return v.Definition }).(pulumi.StringOutput)
 }
 
+func (o DbFunctionOutput) Function_id() pulumi.IntOutput {
+	return o.ApplyT(func(v *DbFunction) pulumi.IntOutput { return v.Function_id }).(pulumi.IntOutput)
+}
+
 func (o DbFunctionOutput) Function_name() pulumi.StringOutput {
 	return o.ApplyT(func(v *DbFunction) pulumi.StringOutput { return v.Function_name }).(pulumi.StringOutput)
 }
@@ -240,8 +245,8 @@ func (o DbFunctionOutput) Schema() pulumi.StringOutput {
 	return o.ApplyT(func(v *DbFunction) pulumi.StringOutput { return v.Schema }).(pulumi.StringOutput)
 }
 
-func (o DbFunctionOutput) Verify_jwt() pulumi.BoolOutput {
-	return o.ApplyT(func(v *DbFunction) pulumi.BoolOutput { return v.Verify_jwt }).(pulumi.BoolOutput)
+func (o DbFunctionOutput) Security_definer() pulumi.BoolOutput {
+	return o.ApplyT(func(v *DbFunction) pulumi.BoolOutput { return v.Security_definer }).(pulumi.BoolOutput)
 }
 
 type DbFunctionArrayOutput struct{ *pulumi.OutputState }

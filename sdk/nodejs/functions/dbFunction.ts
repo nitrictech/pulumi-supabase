@@ -35,13 +35,14 @@ export class DbFunction extends pulumi.CustomResource {
     public readonly behaviour!: pulumi.Output<string>;
     public readonly config_params!: pulumi.Output<{[key: string]: any} | undefined>;
     public readonly definition!: pulumi.Output<string>;
+    public /*out*/ readonly function_id!: pulumi.Output<number>;
     public /*out*/ readonly function_name!: pulumi.Output<string>;
     public readonly language!: pulumi.Output<string>;
     public readonly name!: pulumi.Output<string | undefined>;
     public readonly project_ref!: pulumi.Output<string>;
     public readonly return_type!: pulumi.Output<string>;
     public readonly schema!: pulumi.Output<string>;
-    public readonly verify_jwt!: pulumi.Output<boolean>;
+    public readonly security_definer!: pulumi.Output<boolean>;
 
     /**
      * Create a DbFunction resource with the given unique name, arguments, and options.
@@ -72,8 +73,8 @@ export class DbFunction extends pulumi.CustomResource {
             if ((!args || args.schema === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'schema'");
             }
-            if ((!args || args.verify_jwt === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'verify_jwt'");
+            if ((!args || args.security_definer === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'security_definer'");
             }
             resourceInputs["args"] = args ? args.args : undefined;
             resourceInputs["behaviour"] = args ? args.behaviour : undefined;
@@ -84,20 +85,22 @@ export class DbFunction extends pulumi.CustomResource {
             resourceInputs["project_ref"] = args ? args.project_ref : undefined;
             resourceInputs["return_type"] = args ? args.return_type : undefined;
             resourceInputs["schema"] = args ? args.schema : undefined;
-            resourceInputs["verify_jwt"] = args ? args.verify_jwt : undefined;
+            resourceInputs["security_definer"] = args ? args.security_definer : undefined;
+            resourceInputs["function_id"] = undefined /*out*/;
             resourceInputs["function_name"] = undefined /*out*/;
         } else {
             resourceInputs["args"] = undefined /*out*/;
             resourceInputs["behaviour"] = undefined /*out*/;
             resourceInputs["config_params"] = undefined /*out*/;
             resourceInputs["definition"] = undefined /*out*/;
+            resourceInputs["function_id"] = undefined /*out*/;
             resourceInputs["function_name"] = undefined /*out*/;
             resourceInputs["language"] = undefined /*out*/;
             resourceInputs["name"] = undefined /*out*/;
             resourceInputs["project_ref"] = undefined /*out*/;
             resourceInputs["return_type"] = undefined /*out*/;
             resourceInputs["schema"] = undefined /*out*/;
-            resourceInputs["verify_jwt"] = undefined /*out*/;
+            resourceInputs["security_definer"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(DbFunction.__pulumiType, name, resourceInputs, opts);
@@ -117,5 +120,5 @@ export interface DbFunctionArgs {
     project_ref: pulumi.Input<string>;
     return_type: pulumi.Input<string>;
     schema: pulumi.Input<string>;
-    verify_jwt: pulumi.Input<boolean>;
+    security_definer: pulumi.Input<boolean>;
 }

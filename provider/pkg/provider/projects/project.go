@@ -176,3 +176,25 @@ func (Project) Delete(ctx p.Context, name string, state ProjectState) error {
 
 	return nil
 }
+
+func GetProjectDetails(ctx p.Context, ref string) (*supabase.ProjectDetailResponse, error) {
+	config := infer.GetConfig[config.Config](ctx)
+	supabaseClient := config.ExperimentalClient
+
+	projResp, err := supabaseClient.GetProject(ctx, ref)
+	if err != nil {
+		return nil, err
+	}
+
+	projBody, err := io.ReadAll(projResp.Body)
+	if err != nil {
+		return nil, err
+	}
+
+	project := &supabase.ProjectDetailResponse{}
+	if err := json.Unmarshal(projBody, project); err != nil {
+		return nil, err
+	}
+
+	return project, nil
+}

@@ -20,7 +20,7 @@ class DbFunctionArgs:
                  project_ref: pulumi.Input[str],
                  return_type: pulumi.Input[str],
                  schema: pulumi.Input[str],
-                 verify_jwt: pulumi.Input[bool],
+                 security_definer: pulumi.Input[bool],
                  args: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
                  config_params: Optional[pulumi.Input[Mapping[str, Any]]] = None,
                  name: Optional[pulumi.Input[str]] = None):
@@ -33,7 +33,7 @@ class DbFunctionArgs:
         pulumi.set(__self__, "project_ref", project_ref)
         pulumi.set(__self__, "return_type", return_type)
         pulumi.set(__self__, "schema", schema)
-        pulumi.set(__self__, "verify_jwt", verify_jwt)
+        pulumi.set(__self__, "security_definer", security_definer)
         if args is not None:
             pulumi.set(__self__, "args", args)
         if config_params is not None:
@@ -97,12 +97,12 @@ class DbFunctionArgs:
 
     @property
     @pulumi.getter
-    def verify_jwt(self) -> pulumi.Input[bool]:
-        return pulumi.get(self, "verify_jwt")
+    def security_definer(self) -> pulumi.Input[bool]:
+        return pulumi.get(self, "security_definer")
 
-    @verify_jwt.setter
-    def verify_jwt(self, value: pulumi.Input[bool]):
-        pulumi.set(self, "verify_jwt", value)
+    @security_definer.setter
+    def security_definer(self, value: pulumi.Input[bool]):
+        pulumi.set(self, "security_definer", value)
 
     @property
     @pulumi.getter
@@ -146,7 +146,7 @@ class DbFunction(pulumi.CustomResource):
                  project_ref: Optional[pulumi.Input[str]] = None,
                  return_type: Optional[pulumi.Input[str]] = None,
                  schema: Optional[pulumi.Input[str]] = None,
-                 verify_jwt: Optional[pulumi.Input[bool]] = None,
+                 security_definer: Optional[pulumi.Input[bool]] = None,
                  __props__=None):
         """
         Create a DbFunction resource with the given unique name, props, and options.
@@ -185,7 +185,7 @@ class DbFunction(pulumi.CustomResource):
                  project_ref: Optional[pulumi.Input[str]] = None,
                  return_type: Optional[pulumi.Input[str]] = None,
                  schema: Optional[pulumi.Input[str]] = None,
-                 verify_jwt: Optional[pulumi.Input[bool]] = None,
+                 security_definer: Optional[pulumi.Input[bool]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -216,9 +216,10 @@ class DbFunction(pulumi.CustomResource):
             if schema is None and not opts.urn:
                 raise TypeError("Missing required property 'schema'")
             __props__.__dict__["schema"] = schema
-            if verify_jwt is None and not opts.urn:
-                raise TypeError("Missing required property 'verify_jwt'")
-            __props__.__dict__["verify_jwt"] = verify_jwt
+            if security_definer is None and not opts.urn:
+                raise TypeError("Missing required property 'security_definer'")
+            __props__.__dict__["security_definer"] = security_definer
+            __props__.__dict__["function_id"] = None
             __props__.__dict__["function_name"] = None
         super(DbFunction, __self__).__init__(
             'supabase:functions:DbFunction',
@@ -246,13 +247,14 @@ class DbFunction(pulumi.CustomResource):
         __props__.__dict__["behaviour"] = None
         __props__.__dict__["config_params"] = None
         __props__.__dict__["definition"] = None
+        __props__.__dict__["function_id"] = None
         __props__.__dict__["function_name"] = None
         __props__.__dict__["language"] = None
         __props__.__dict__["name"] = None
         __props__.__dict__["project_ref"] = None
         __props__.__dict__["return_type"] = None
         __props__.__dict__["schema"] = None
-        __props__.__dict__["verify_jwt"] = None
+        __props__.__dict__["security_definer"] = None
         return DbFunction(resource_name, opts=opts, __props__=__props__)
 
     @property
@@ -274,6 +276,11 @@ class DbFunction(pulumi.CustomResource):
     @pulumi.getter
     def definition(self) -> pulumi.Output[str]:
         return pulumi.get(self, "definition")
+
+    @property
+    @pulumi.getter
+    def function_id(self) -> pulumi.Output[int]:
+        return pulumi.get(self, "function_id")
 
     @property
     @pulumi.getter
@@ -307,6 +314,6 @@ class DbFunction(pulumi.CustomResource):
 
     @property
     @pulumi.getter
-    def verify_jwt(self) -> pulumi.Output[bool]:
-        return pulumi.get(self, "verify_jwt")
+    def security_definer(self) -> pulumi.Output[bool]:
+        return pulumi.get(self, "security_definer")
 

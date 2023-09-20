@@ -24,6 +24,9 @@ namespace Pulumi.Supabase.Functions
         [Output("definition")]
         public Output<string> Definition { get; private set; } = null!;
 
+        [Output("function_id")]
+        public Output<int> Function_id { get; private set; } = null!;
+
         [Output("function_name")]
         public Output<string> Function_name { get; private set; } = null!;
 
@@ -42,8 +45,8 @@ namespace Pulumi.Supabase.Functions
         [Output("schema")]
         public Output<string> Schema { get; private set; } = null!;
 
-        [Output("verify_jwt")]
-        public Output<bool> Verify_jwt { get; private set; } = null!;
+        [Output("security_definer")]
+        public Output<bool> Security_definer { get; private set; } = null!;
 
 
         /// <summary>
@@ -127,8 +130,8 @@ namespace Pulumi.Supabase.Functions
         [Input("schema", required: true)]
         public Input<string> Schema { get; set; } = null!;
 
-        [Input("verify_jwt", required: true)]
-        public Input<bool> Verify_jwt { get; set; } = null!;
+        [Input("security_definer", required: true)]
+        public Input<bool> Security_definer { get; set; } = null!;
 
         public DbFunctionArgs()
         {
