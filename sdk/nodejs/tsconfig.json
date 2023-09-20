@@ -19,8 +19,8 @@
         "provider.ts",
         "supabase/bucket.ts",
         "supabase/index.ts",
-        "supabase/migration.ts",
         "supabase/organization.ts",
+        "supabase/pgFunction.ts",
         "supabase/project.ts",
         "supabase/secret.ts",
         "utilities.ts"

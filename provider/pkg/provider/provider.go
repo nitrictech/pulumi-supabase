@@ -46,6 +46,7 @@ func NewProvider() p.Provider {
 			infer.Resource[supabase.Organization, supabase.OrganizationArgs, supabase.OrganizationState](),
 			infer.Resource[supabase.Project, supabase.ProjectArgs, supabase.ProjectState](),
 			infer.Resource[supabase.Bucket, supabase.BucketArgs, supabase.BucketState](),
+			infer.Resource[supabase.PgFunction, supabase.PgFunctionArgs, supabase.PgFunctionState](),
 		},
 		Config: infer.Config[*config.Config](),
 	})

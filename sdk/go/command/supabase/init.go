@@ -23,10 +23,10 @@ func (m *module) Construct(ctx *pulumi.Context, name, typ, urn string) (r pulumi
 	switch typ {
 	case "supabase:supabase:Bucket":
 		r = &Bucket{}
-	case "supabase:supabase:Migration":
-		r = &Migration{}
 	case "supabase:supabase:Organization":
 		r = &Organization{}
+	case "supabase:supabase:PgFunction":
+		r = &PgFunction{}
 	case "supabase:supabase:Project":
 		r = &Project{}
 	case "supabase:supabase:Secret":

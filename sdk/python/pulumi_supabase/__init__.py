@@ -26,8 +26,8 @@ _utilities.register(
   "fqn": "pulumi_supabase.supabase",
   "classes": {
    "supabase:supabase:Bucket": "Bucket",
-   "supabase:supabase:Migration": "Migration",
    "supabase:supabase:Organization": "Organization",
+   "supabase:supabase:PgFunction": "PgFunction",
    "supabase:supabase:Project": "Project",
    "supabase:supabase:Secret": "Secret"
   }

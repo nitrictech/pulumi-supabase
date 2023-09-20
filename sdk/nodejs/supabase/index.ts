@@ -10,15 +10,15 @@ export type Bucket = import("./bucket").Bucket;
 export const Bucket: typeof import("./bucket").Bucket = null as any;
 utilities.lazyLoad(exports, ["Bucket"], () => require("./bucket"));
 
-export { MigrationArgs } from "./migration";
-export type Migration = import("./migration").Migration;
-export const Migration: typeof import("./migration").Migration = null as any;
-utilities.lazyLoad(exports, ["Migration"], () => require("./migration"));
-
 export { OrganizationArgs } from "./organization";
 export type Organization = import("./organization").Organization;
 export const Organization: typeof import("./organization").Organization = null as any;
 utilities.lazyLoad(exports, ["Organization"], () => require("./organization"));
+
+export { PgFunctionArgs } from "./pgFunction";
+export type PgFunction = import("./pgFunction").PgFunction;
+export const PgFunction: typeof import("./pgFunction").PgFunction = null as any;
+utilities.lazyLoad(exports, ["PgFunction"], () => require("./pgFunction"));
 
 export { ProjectArgs } from "./project";
 export type Project = import("./project").Project;
@@ -37,10 +37,10 @@ const _module = {
         switch (type) {
             case "supabase:supabase:Bucket":
                 return new Bucket(name, <any>undefined, { urn })
-            case "supabase:supabase:Migration":
-                return new Migration(name, <any>undefined, { urn })
             case "supabase:supabase:Organization":
                 return new Organization(name, <any>undefined, { urn })
+            case "supabase:supabase:PgFunction":
+                return new PgFunction(name, <any>undefined, { urn })
             case "supabase:supabase:Project":
                 return new Project(name, <any>undefined, { urn })
             case "supabase:supabase:Secret":
