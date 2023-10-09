@@ -2,7 +2,11 @@ package provider
 
 import (
 	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/config"
-	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/supabase"
+	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/functions"
+	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/organizations"
+	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/projects"
+	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/secrets"
+	"github.com/nitrictech/pulumi-supabase/provider/pkg/provider/storage"
 	p "github.com/pulumi/pulumi-go-provider"
 	"github.com/pulumi/pulumi-go-provider/infer"
 	"github.com/pulumi/pulumi-go-provider/middleware/schema"
@@ -39,10 +43,14 @@ func NewProvider() p.Provider {
 			},
 		},
 		Resources: []infer.InferredResource{
-			infer.Resource[supabase.Organization, supabase.OrganizationArgs, supabase.OrganizationState](),
-			infer.Resource[supabase.Project, supabase.ProjectArgs, supabase.ProjectState](),
-			infer.Resource[supabase.Secret, supabase.SecretArgs, supabase.SecretState](),
-			infer.Resource[supabase.Migration, supabase.MigrationArgs, supabase.MigrationState](),
+			// V1 API Resources
+			// Adding into the v0 package for now to save on confusion
+			infer.Resource[secrets.Secret, secrets.SecretArgs, secrets.SecretState](),
+			// V0 API Resources
+			infer.Resource[organizations.Organization, organizations.OrganizationArgs, organizations.OrganizationState](),
+			infer.Resource[projects.Project, projects.ProjectArgs, projects.ProjectState](),
+			infer.Resource[storage.Bucket, storage.BucketArgs, storage.BucketState](),
+			infer.Resource[functions.DbFunction, functions.DbFunctionArgs, functions.DbFunctionState](),
 		},
 		Config: infer.Config[*config.Config](),
 	})

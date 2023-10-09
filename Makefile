@@ -111,4 +111,6 @@ install_nodejs_sdk::
 # Generate go client for resource provider from supabase openapi spec
 generate::
 	mkdir -p ./provider/pkg/api/supabase
+	mkdir -p ./provider/pkg/api/supabase/v0
 	go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest -package supabase https://api.supabase.com/api/v1-json > ./provider/pkg/api/supabase/api.gen.go
+	go run github.com/deepmap/oapi-codegen/cmd/oapi-codegen@latest -package v0 supabase.v0.yaml > ./provider/pkg/api/supabase/v0/api.gen.go

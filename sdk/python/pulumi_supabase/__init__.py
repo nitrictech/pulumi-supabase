@@ -11,24 +11,65 @@ from .provider import *
 if typing.TYPE_CHECKING:
     import pulumi_supabase.config as __config
     config = __config
-    import pulumi_supabase.supabase as __supabase
-    supabase = __supabase
+    import pulumi_supabase.functions as __functions
+    functions = __functions
+    import pulumi_supabase.organizations as __organizations
+    organizations = __organizations
+    import pulumi_supabase.projects as __projects
+    projects = __projects
+    import pulumi_supabase.secrets as __secrets
+    secrets = __secrets
+    import pulumi_supabase.storage as __storage
+    storage = __storage
 else:
     config = _utilities.lazy_import('pulumi_supabase.config')
-    supabase = _utilities.lazy_import('pulumi_supabase.supabase')
+    functions = _utilities.lazy_import('pulumi_supabase.functions')
+    organizations = _utilities.lazy_import('pulumi_supabase.organizations')
+    projects = _utilities.lazy_import('pulumi_supabase.projects')
+    secrets = _utilities.lazy_import('pulumi_supabase.secrets')
+    storage = _utilities.lazy_import('pulumi_supabase.storage')
 
 _utilities.register(
     resource_modules="""
 [
  {
   "pkg": "supabase",
-  "mod": "supabase",
-  "fqn": "pulumi_supabase.supabase",
+  "mod": "functions",
+  "fqn": "pulumi_supabase.functions",
   "classes": {
-   "supabase:supabase:Migration": "Migration",
-   "supabase:supabase:Organization": "Organization",
-   "supabase:supabase:Project": "Project",
-   "supabase:supabase:Secret": "Secret"
+   "supabase:functions:DbFunction": "DbFunction"
+  }
+ },
+ {
+  "pkg": "supabase",
+  "mod": "organizations",
+  "fqn": "pulumi_supabase.organizations",
+  "classes": {
+   "supabase:organizations:Organization": "Organization"
+  }
+ },
+ {
+  "pkg": "supabase",
+  "mod": "projects",
+  "fqn": "pulumi_supabase.projects",
+  "classes": {
+   "supabase:projects:Project": "Project"
+  }
+ },
+ {
+  "pkg": "supabase",
+  "mod": "secrets",
+  "fqn": "pulumi_supabase.secrets",
+  "classes": {
+   "supabase:secrets:Secret": "Secret"
+  }
+ },
+ {
+  "pkg": "supabase",
+  "mod": "storage",
+  "fqn": "pulumi_supabase.storage",
+  "classes": {
+   "supabase:storage:Bucket": "Bucket"
   }
  }
 ]
