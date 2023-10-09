@@ -1,9 +1,9 @@
 archives:
   - id: archive
     name_template: '{{ .Binary }}-{{ .Tag }}-{{ .Os }}-{{ .Arch }}'
-before:
-  hooks:
-    - make gen
+# before:
+#   hooks:
+#     - make gen
 builds:
   - binary: pulumi-resource-supabase
     dir: provider
