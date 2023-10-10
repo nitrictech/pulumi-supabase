@@ -42,6 +42,9 @@ func NewProvider() p.Provider {
 				},
 			},
 		},
+		Functions: []infer.InferredFunction{
+			infer.Function[projects.ApplyMigrations, projects.ApplyMigrationsInput, projects.ApplyMigrationsResult](),
+		},
 		Resources: []infer.InferredResource{
 			// V1 API Resources
 			// Adding into the v0 package for now to save on confusion
