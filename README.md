@@ -27,6 +27,12 @@ go get github.com/nitrictech/pulumi-supabase/sdk
 
 This provider mostly uses the supabase experimental management API so an experimental access token will be required to deploy resources
 
+The provider can be configured by providing the following environment variable:
+
+```bash
+SUPABASE_ACCESS_TOKEN=<YOUR_ACCESS_TOKEN>
+```
+
 ## Supported Resources
 
  - [x] Organizations
