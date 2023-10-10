@@ -31,6 +31,7 @@ export class Project extends pulumi.CustomResource {
         return obj['__pulumiType'] === Project.__pulumiType;
     }
 
+    public /*out*/ readonly anon_key!: pulumi.Output<string>;
     public readonly cloud!: pulumi.Output<string | undefined>;
     public /*out*/ readonly database_host!: pulumi.Output<string>;
     public readonly db_pass!: pulumi.Output<string>;
@@ -43,6 +44,7 @@ export class Project extends pulumi.CustomResource {
     public /*out*/ readonly project_name!: pulumi.Output<string>;
     public /*out*/ readonly project_ref!: pulumi.Output<string>;
     public readonly region!: pulumi.Output<string | undefined>;
+    public /*out*/ readonly service_key!: pulumi.Output<string>;
 
     /**
      * Create a Project resource with the given unique name, arguments, and options.
@@ -68,12 +70,15 @@ export class Project extends pulumi.CustomResource {
             resourceInputs["organization_id"] = args ? args.organization_id : undefined;
             resourceInputs["plan"] = args ? args.plan : undefined;
             resourceInputs["region"] = args ? args.region : undefined;
+            resourceInputs["anon_key"] = undefined /*out*/;
             resourceInputs["database_host"] = undefined /*out*/;
             resourceInputs["project_endpoint"] = undefined /*out*/;
             resourceInputs["project_id"] = undefined /*out*/;
             resourceInputs["project_name"] = undefined /*out*/;
             resourceInputs["project_ref"] = undefined /*out*/;
+            resourceInputs["service_key"] = undefined /*out*/;
         } else {
+            resourceInputs["anon_key"] = undefined /*out*/;
             resourceInputs["cloud"] = undefined /*out*/;
             resourceInputs["database_host"] = undefined /*out*/;
             resourceInputs["db_pass"] = undefined /*out*/;
@@ -86,9 +91,10 @@ export class Project extends pulumi.CustomResource {
             resourceInputs["project_name"] = undefined /*out*/;
             resourceInputs["project_ref"] = undefined /*out*/;
             resourceInputs["region"] = undefined /*out*/;
+            resourceInputs["service_key"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
-        const secretOpts = { additionalSecretOutputs: ["db_pass"] };
+        const secretOpts = { additionalSecretOutputs: ["anon_key", "db_pass", "service_key"] };
         opts = pulumi.mergeOptions(opts, secretOpts);
         super(Project.__pulumiType, name, resourceInputs, opts);
     }

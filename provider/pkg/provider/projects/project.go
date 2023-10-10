@@ -56,6 +56,9 @@ type ProjectState struct {
 	ProjectRef      string `pulumi:"project_ref"`
 	ProjectEndpoint string `pulumi:"project_endpoint"`
 
+	ServiceKey string `pulumi:"service_key" provider:"secret"`
+	AnonKey    string `pulumi:"anon_key" provider:"secret"`
+
 	DatabaseHost string `pulumi:"database_host"`
 }
 
@@ -126,6 +129,8 @@ func (Project) Create(ctx p.Context, name string, input ProjectArgs, preview boo
 	state.ProjectRef = projectResp.Ref
 	state.DatabaseHost = fmt.Sprintf("db.%s.supabase.co", projectResp.Ref)
 	state.ProjectEndpoint = projectResp.Endpoint
+	state.ServiceKey = projectResp.ServiceKey
+	state.AnonKey = projectResp.AnonKey
 
 	_, _, err = lo.AttemptWithDelay(15, 10*time.Second, func(index int, duration time.Duration) error {
 		resp, err := supabaseClient.GetProject(ctx, state.ProjectRef)

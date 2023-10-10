@@ -4,9 +4,34 @@ A native pulumi provider for the Supabase Management API.
 
 ## Installing
 
+To install this plugin run:
+
+```bash
+pulumi plugin install resource supabase ${VERSION} --server https://github.com/nitrictech/pulumi-supabase/releases/download/${VERSION} 
+```
+> Where `${VERSION}` is a tagged released of this resource see: [Releases](https://github.com/nitrictech/pulumi-supabase/releases)
+
+### Using NPM
+
+```bash
+npm install @nitric/pulumi-supabase
+```
+
+### Using Golang
+
+```bash
+go get github.com/nitrictech/pulumi-supabase/sdk
+```
+
 ## Configuring
 
 This provider mostly uses the supabase experimental management API so an experimental access token will be required to deploy resources
+
+The provider can be configured by providing the following environment variable:
+
+```bash
+SUPABASE_ACCESS_TOKEN=<YOUR_ACCESS_TOKEN>
+```
 
 ## Supported Resources
 
