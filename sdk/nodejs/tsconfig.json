@@ -20,6 +20,7 @@
         "index.ts",
         "organizations/index.ts",
         "organizations/organization.ts",
+        "projects/applyMigrations.ts",
         "projects/index.ts",
         "projects/project.ts",
         "provider.ts",

@@ -57,6 +57,7 @@ type ProjectState struct {
 	ProjectEndpoint string `pulumi:"project_endpoint"`
 
 	DatabaseHost string `pulumi:"database_host"`
+	// DatabaseConnectionString string `pulumi:"database_connection_string" provider:"secret"`
 }
 
 // All resources must implement Create at a minumum.
@@ -126,6 +127,7 @@ func (Project) Create(ctx p.Context, name string, input ProjectArgs, preview boo
 	state.ProjectRef = projectResp.Ref
 	state.DatabaseHost = fmt.Sprintf("db.%s.supabase.co", projectResp.Ref)
 	state.ProjectEndpoint = projectResp.Endpoint
+	// state.DatabaseConnectionString = fmt.Sprintf("postgres://postgres:%s@%s:5432/postgres", state.DbPass, state.DatabaseHost)
 
 	_, _, err = lo.AttemptWithDelay(15, 10*time.Second, func(index int, duration time.Duration) error {
 		resp, err := supabaseClient.GetProject(ctx, state.ProjectRef)

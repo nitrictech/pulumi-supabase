@@ -5,6 +5,11 @@ import * as pulumi from "@pulumi/pulumi";
 import * as utilities from "../utilities";
 
 // Export members:
+export { ApplyMigrationsArgs, ApplyMigrationsResult, ApplyMigrationsOutputArgs } from "./applyMigrations";
+export const applyMigrations: typeof import("./applyMigrations").applyMigrations = null as any;
+export const applyMigrationsOutput: typeof import("./applyMigrations").applyMigrationsOutput = null as any;
+utilities.lazyLoad(exports, ["applyMigrations","applyMigrationsOutput"], () => require("./applyMigrations"));
+
 export { ProjectArgs } from "./project";
 export type Project = import("./project").Project;
 export const Project: typeof import("./project").Project = null as any;
