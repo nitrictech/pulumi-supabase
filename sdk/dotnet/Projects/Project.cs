@@ -12,6 +12,9 @@ namespace Pulumi.Supabase.Projects
     [SupabaseResourceType("supabase:projects:Project")]
     public partial class Project : global::Pulumi.CustomResource
     {
+        [Output("anon_key")]
+        public Output<string> Anon_key { get; private set; } = null!;
+
         [Output("cloud")]
         public Output<string?> Cloud { get; private set; } = null!;
 
@@ -48,6 +51,9 @@ namespace Pulumi.Supabase.Projects
         [Output("region")]
         public Output<string?> Region { get; private set; } = null!;
 
+        [Output("service_key")]
+        public Output<string> Service_key { get; private set; } = null!;
+
 
         /// <summary>
         /// Create a Project resource with the given unique name, arguments, and options.
@@ -73,7 +79,9 @@ namespace Pulumi.Supabase.Projects
                 Version = Utilities.Version,
                 AdditionalSecretOutputs =
                 {
+                    "anon_key",
                     "db_pass",
+                    "service_key",
                 },
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);

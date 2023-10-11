@@ -16,6 +16,7 @@ import (
 type Project struct {
 	pulumi.CustomResourceState
 
+	Anon_key         pulumi.StringOutput    `pulumi:"anon_key"`
 	Cloud            pulumi.StringPtrOutput `pulumi:"cloud"`
 	Database_host    pulumi.StringOutput    `pulumi:"database_host"`
 	Db_pass          pulumi.StringOutput    `pulumi:"db_pass"`
@@ -28,6 +29,7 @@ type Project struct {
 	Project_name     pulumi.StringOutput    `pulumi:"project_name"`
 	Project_ref      pulumi.StringOutput    `pulumi:"project_ref"`
 	Region           pulumi.StringPtrOutput `pulumi:"region"`
+	Service_key      pulumi.StringOutput    `pulumi:"service_key"`
 }
 
 // NewProject registers a new resource with the given unique name, arguments, and options.
@@ -47,7 +49,9 @@ func NewProject(ctx *pulumi.Context,
 		args.Db_pass = pulumi.ToSecret(args.Db_pass).(pulumi.StringInput)
 	}
 	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"anon_key",
 		"db_pass",
+		"service_key",
 	})
 	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
@@ -214,6 +218,10 @@ func (o ProjectOutput) ToOutput(ctx context.Context) pulumix.Output[*Project] {
 	}
 }
 
+func (o ProjectOutput) Anon_key() pulumi.StringOutput {
+	return o.ApplyT(func(v *Project) pulumi.StringOutput { return v.Anon_key }).(pulumi.StringOutput)
+}
+
 func (o ProjectOutput) Cloud() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Project) pulumi.StringPtrOutput { return v.Cloud }).(pulumi.StringPtrOutput)
 }
@@ -260,6 +268,10 @@ func (o ProjectOutput) Project_ref() pulumi.StringOutput {
 
 func (o ProjectOutput) Region() pulumi.StringPtrOutput {
 	return o.ApplyT(func(v *Project) pulumi.StringPtrOutput { return v.Region }).(pulumi.StringPtrOutput)
+}
+
+func (o ProjectOutput) Service_key() pulumi.StringOutput {
+	return o.ApplyT(func(v *Project) pulumi.StringOutput { return v.Service_key }).(pulumi.StringOutput)
 }
 
 type ProjectArrayOutput struct{ *pulumi.OutputState }

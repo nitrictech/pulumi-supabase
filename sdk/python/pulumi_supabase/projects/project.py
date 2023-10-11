@@ -194,12 +194,14 @@ class Project(pulumi.CustomResource):
             __props__.__dict__["organization_id"] = organization_id
             __props__.__dict__["plan"] = plan
             __props__.__dict__["region"] = region
+            __props__.__dict__["anon_key"] = None
             __props__.__dict__["database_host"] = None
             __props__.__dict__["project_endpoint"] = None
             __props__.__dict__["project_id"] = None
             __props__.__dict__["project_name"] = None
             __props__.__dict__["project_ref"] = None
-        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["db_pass"])
+            __props__.__dict__["service_key"] = None
+        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["anon_key", "db_pass", "service_key"])
         opts = pulumi.ResourceOptions.merge(opts, secret_opts)
         super(Project, __self__).__init__(
             'supabase:projects:Project',
@@ -223,6 +225,7 @@ class Project(pulumi.CustomResource):
 
         __props__ = ProjectArgs.__new__(ProjectArgs)
 
+        __props__.__dict__["anon_key"] = None
         __props__.__dict__["cloud"] = None
         __props__.__dict__["database_host"] = None
         __props__.__dict__["db_pass"] = None
@@ -235,7 +238,13 @@ class Project(pulumi.CustomResource):
         __props__.__dict__["project_name"] = None
         __props__.__dict__["project_ref"] = None
         __props__.__dict__["region"] = None
+        __props__.__dict__["service_key"] = None
         return Project(resource_name, opts=opts, __props__=__props__)
+
+    @property
+    @pulumi.getter
+    def anon_key(self) -> pulumi.Output[str]:
+        return pulumi.get(self, "anon_key")
 
     @property
     @pulumi.getter
@@ -296,4 +305,9 @@ class Project(pulumi.CustomResource):
     @pulumi.getter
     def region(self) -> pulumi.Output[Optional[str]]:
         return pulumi.get(self, "region")
+
+    @property
+    @pulumi.getter
+    def service_key(self) -> pulumi.Output[str]:
+        return pulumi.get(self, "service_key")
 
