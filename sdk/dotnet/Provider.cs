@@ -16,7 +16,7 @@ namespace Pulumi.Supabase
         /// Supbase Personal Access Token for account
         /// </summary>
         [Output("token")]
-        public Output<string> Token { get; private set; } = null!;
+        public Output<string?> Token { get; private set; } = null!;
 
         [Output("version")]
         public Output<string> Version { get; private set; } = null!;
@@ -39,6 +39,10 @@ namespace Pulumi.Supabase
             var defaultOptions = new CustomResourceOptions
             {
                 Version = Utilities.Version,
+                AdditionalSecretOutputs =
+                {
+                    "token",
+                },
             };
             var merged = CustomResourceOptions.Merge(defaultOptions, options);
             // Override the ID if one was specified for consistency with other language SDKs.
@@ -49,11 +53,21 @@ namespace Pulumi.Supabase
 
     public sealed class ProviderArgs : global::Pulumi.ResourceArgs
     {
+        [Input("token")]
+        private Input<string>? _token;
+
         /// <summary>
         /// Supbase Personal Access Token for account
         /// </summary>
-        [Input("token", required: true)]
-        public Input<string> Token { get; set; } = null!;
+        public Input<string>? Token
+        {
+            get => _token;
+            set
+            {
+                var emptySecret = Output.CreateSecret(0);
+                _token = Output.Tuple<Input<string>?, int>(value, emptySecret).Apply(t => t.Item1);
+            }
+        }
 
         [Input("version", required: true)]
         public Input<string> Version { get; set; } = null!;

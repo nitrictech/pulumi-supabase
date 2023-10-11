@@ -14,7 +14,7 @@ const defaultApiHost = "https://api.supabase.com"
 const defaultExpApiHost = "https://api.supabase.io"
 
 type Config struct {
-	Token              string `pulumi:"token"`
+	Token              string `pulumi:"token,optional" provider:"secret"`
 	Client             *supabase.Client
 	ExperimentalClient *v0.Client
 	Version            string `pulumi:"version"`

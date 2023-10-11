@@ -17,8 +17,8 @@ type Provider struct {
 	pulumi.ProviderResourceState
 
 	// Supbase Personal Access Token for account
-	Token   pulumi.StringOutput `pulumi:"token"`
-	Version pulumi.StringOutput `pulumi:"version"`
+	Token   pulumi.StringPtrOutput `pulumi:"token"`
+	Version pulumi.StringOutput    `pulumi:"version"`
 }
 
 // NewProvider registers a new resource with the given unique name, arguments, and options.
@@ -33,9 +33,16 @@ func NewProvider(ctx *pulumi.Context,
 	}
 	if args.Token == nil {
 		if d := internal.GetEnvOrDefault("", nil, "SUPABASE_ACCESS_TOKEN"); d != nil {
-			args.Token = pulumi.String(d.(string))
+			args.Token = pulumi.StringPtr(d.(string))
 		}
 	}
+	if args.Token != nil {
+		args.Token = pulumi.ToSecret(args.Token).(pulumi.StringPtrInput)
+	}
+	secrets := pulumi.AdditionalSecretOutputs([]string{
+		"token",
+	})
+	opts = append(opts, secrets)
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Provider
 	err := ctx.RegisterResource("pulumi:providers:supabase", name, args, &resource, opts...)
@@ -47,14 +54,14 @@ func NewProvider(ctx *pulumi.Context,
 
 type providerArgs struct {
 	// Supbase Personal Access Token for account
-	Token   string `pulumi:"token"`
-	Version string `pulumi:"version"`
+	Token   *string `pulumi:"token"`
+	Version string  `pulumi:"version"`
 }
 
 // The set of arguments for constructing a Provider resource.
 type ProviderArgs struct {
 	// Supbase Personal Access Token for account
-	Token   pulumi.StringInput
+	Token   pulumi.StringPtrInput
 	Version pulumi.StringInput
 }
 
@@ -108,8 +115,8 @@ func (o ProviderOutput) ToOutput(ctx context.Context) pulumix.Output[*Provider] 
 }
 
 // Supbase Personal Access Token for account
-func (o ProviderOutput) Token() pulumi.StringOutput {
-	return o.ApplyT(func(v *Provider) pulumi.StringOutput { return v.Token }).(pulumi.StringOutput)
+func (o ProviderOutput) Token() pulumi.StringPtrOutput {
+	return o.ApplyT(func(v *Provider) pulumi.StringPtrOutput { return v.Token }).(pulumi.StringPtrOutput)
 }
 
 func (o ProviderOutput) Version() pulumi.StringOutput {

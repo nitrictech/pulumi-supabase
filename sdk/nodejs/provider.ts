@@ -22,7 +22,7 @@ export class Provider extends pulumi.ProviderResource {
     /**
      * Supbase Personal Access Token for account
      */
-    public readonly token!: pulumi.Output<string>;
+    public readonly token!: pulumi.Output<string | undefined>;
     public readonly version!: pulumi.Output<string>;
 
     /**
@@ -36,16 +36,15 @@ export class Provider extends pulumi.ProviderResource {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         {
-            if ((!args || args.token === undefined) && !opts.urn) {
-                throw new Error("Missing required property 'token'");
-            }
             if ((!args || args.version === undefined) && !opts.urn) {
                 throw new Error("Missing required property 'version'");
             }
-            resourceInputs["token"] = (args ? args.token : undefined) ?? (utilities.getEnv("SUPABASE_ACCESS_TOKEN") || "");
+            resourceInputs["token"] = (args?.token ? pulumi.secret(args.token) : undefined) ?? (utilities.getEnv("SUPABASE_ACCESS_TOKEN") || "");
             resourceInputs["version"] = args ? args.version : undefined;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
+        const secretOpts = { additionalSecretOutputs: ["token"] };
+        opts = pulumi.mergeOptions(opts, secretOpts);
         super(Provider.__pulumiType, name, resourceInputs, opts);
     }
 }
@@ -57,6 +56,6 @@ export interface ProviderArgs {
     /**
      * Supbase Personal Access Token for account
      */
-    token: pulumi.Input<string>;
+    token?: pulumi.Input<string>;
     version: pulumi.Input<string>;
 }

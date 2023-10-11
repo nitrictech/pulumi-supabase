@@ -14,39 +14,28 @@ __all__ = ['ProviderArgs', 'Provider']
 @pulumi.input_type
 class ProviderArgs:
     def __init__(__self__, *,
-                 token: Optional[pulumi.Input[str]] = None,
-                 version: pulumi.Input[str]):
+                 version: pulumi.Input[str],
+                 token: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Provider resource.
         :param pulumi.Input[str] token: Supbase Personal Access Token for account
         """
         ProviderArgs._configure(
             lambda key, value: pulumi.set(__self__, key, value),
-            token=token,
             version=version,
+            token=token,
         )
     @staticmethod
     def _configure(
              _setter: Callable[[Any, Any], None],
-             token: Optional[pulumi.Input[str]] = None,
              version: pulumi.Input[str],
+             token: Optional[pulumi.Input[str]] = None,
              opts: Optional[pulumi.ResourceOptions]=None):
+        _setter("version", version)
         if token is None:
             token = (_utilities.get_env('SUPABASE_ACCESS_TOKEN') or '')
-        _setter("token", token)
-        _setter("version", version)
-
-    @property
-    @pulumi.getter
-    def token(self) -> pulumi.Input[str]:
-        """
-        Supbase Personal Access Token for account
-        """
-        return pulumi.get(self, "token")
-
-    @token.setter
-    def token(self, value: pulumi.Input[str]):
-        pulumi.set(self, "token", value)
+        if token is not None:
+            _setter("token", token)
 
     @property
     @pulumi.getter
@@ -56,6 +45,18 @@ class ProviderArgs:
     @version.setter
     def version(self, value: pulumi.Input[str]):
         pulumi.set(self, "version", value)
+
+    @property
+    @pulumi.getter
+    def token(self) -> Optional[pulumi.Input[str]]:
+        """
+        Supbase Personal Access Token for account
+        """
+        return pulumi.get(self, "token")
+
+    @token.setter
+    def token(self, value: Optional[pulumi.Input[str]]):
+        pulumi.set(self, "token", value)
 
 
 class Provider(pulumi.ProviderResource):
@@ -112,12 +113,12 @@ class Provider(pulumi.ProviderResource):
 
             if token is None:
                 token = (_utilities.get_env('SUPABASE_ACCESS_TOKEN') or '')
-            if token is None and not opts.urn:
-                raise TypeError("Missing required property 'token'")
-            __props__.__dict__["token"] = token
+            __props__.__dict__["token"] = None if token is None else pulumi.Output.secret(token)
             if version is None and not opts.urn:
                 raise TypeError("Missing required property 'version'")
             __props__.__dict__["version"] = version
+        secret_opts = pulumi.ResourceOptions(additional_secret_outputs=["token"])
+        opts = pulumi.ResourceOptions.merge(opts, secret_opts)
         super(Provider, __self__).__init__(
             'supabase',
             resource_name,
@@ -126,7 +127,7 @@ class Provider(pulumi.ProviderResource):
 
     @property
     @pulumi.getter
-    def token(self) -> pulumi.Output[str]:
+    def token(self) -> pulumi.Output[Optional[str]]:
         """
         Supbase Personal Access Token for account
         """
