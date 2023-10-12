@@ -1,4 +1,4 @@
-module github.com/pulumi/pulumi-supabase/sdk/v3
+module github.com/nitrictech/pulumi-supabase/sdk/v3
 
 go 1.17
 
