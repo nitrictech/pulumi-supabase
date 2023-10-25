@@ -38,7 +38,7 @@ func NewProvider() p.Provider {
 				},
 				"go": map[string]any{
 					"generateResourceContainerTypes": true,
-					"importBasePath":                 "github.com/pulumi/pulumi-command/sdk/go/command",
+					"importBasePath":                 "github.com/nitrictech/pulumi-supabase/sdk/v3/go/command",
 				},
 			},
 		},
