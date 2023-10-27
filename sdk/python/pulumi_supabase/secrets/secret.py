@@ -32,7 +32,9 @@ class SecretArgs:
              name: pulumi.Input[str],
              project_id: pulumi.Input[str],
              value: pulumi.Input[str],
-             opts: Optional[pulumi.ResourceOptions]=None):
+             opts: Optional[pulumi.ResourceOptions]=None,
+             **kwargs):
+
         _setter("name", name)
         _setter("project_id", project_id)
         _setter("value", value)

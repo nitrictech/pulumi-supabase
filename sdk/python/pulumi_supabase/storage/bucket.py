@@ -38,7 +38,9 @@ class BucketArgs:
              file_size_limit: Optional[pulumi.Input[int]] = None,
              name: Optional[pulumi.Input[str]] = None,
              public: Optional[pulumi.Input[bool]] = None,
-             opts: Optional[pulumi.ResourceOptions]=None):
+             opts: Optional[pulumi.ResourceOptions]=None,
+             **kwargs):
+
         _setter("project_ref", project_ref)
         if allowed_mime_types is not None:
             _setter("allowed_mime_types", allowed_mime_types)

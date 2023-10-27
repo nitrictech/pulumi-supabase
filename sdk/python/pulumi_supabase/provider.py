@@ -30,7 +30,9 @@ class ProviderArgs:
              _setter: Callable[[Any, Any], None],
              version: pulumi.Input[str],
              token: Optional[pulumi.Input[str]] = None,
-             opts: Optional[pulumi.ResourceOptions]=None):
+             opts: Optional[pulumi.ResourceOptions]=None,
+             **kwargs):
+
         _setter("version", version)
         if token is None:
             token = (_utilities.get_env('SUPABASE_ACCESS_TOKEN') or '')

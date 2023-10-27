@@ -44,7 +44,9 @@ class ProjectArgs:
              name: Optional[pulumi.Input[str]] = None,
              plan: Optional[pulumi.Input[str]] = None,
              region: Optional[pulumi.Input[str]] = None,
-             opts: Optional[pulumi.ResourceOptions]=None):
+             opts: Optional[pulumi.ResourceOptions]=None,
+             **kwargs):
+
         _setter("db_pass", db_pass)
         _setter("organization_id", organization_id)
         if cloud is not None:

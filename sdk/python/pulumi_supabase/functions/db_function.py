@@ -53,7 +53,9 @@ class DbFunctionArgs:
              args: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
              config_params: Optional[pulumi.Input[Mapping[str, Any]]] = None,
              name: Optional[pulumi.Input[str]] = None,
-             opts: Optional[pulumi.ResourceOptions]=None):
+             opts: Optional[pulumi.ResourceOptions]=None,
+             **kwargs):
+
         _setter("behaviour", behaviour)
         _setter("definition", definition)
         _setter("language", language)
