@@ -6,7 +6,7 @@ import copy
 import warnings
 import pulumi
 import pulumi.runtime
-from typing import Any, Callable, Mapping, Optional, Sequence, Union, overload
+from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
 
 __all__ = ['DbFunctionArgs', 'DbFunction']
@@ -27,48 +27,19 @@ class DbFunctionArgs:
         """
         The set of arguments for constructing a DbFunction resource.
         """
-        DbFunctionArgs._configure(
-            lambda key, value: pulumi.set(__self__, key, value),
-            behaviour=behaviour,
-            definition=definition,
-            language=language,
-            project_ref=project_ref,
-            return_type=return_type,
-            schema=schema,
-            security_definer=security_definer,
-            args=args,
-            config_params=config_params,
-            name=name,
-        )
-    @staticmethod
-    def _configure(
-             _setter: Callable[[Any, Any], None],
-             behaviour: pulumi.Input[str],
-             definition: pulumi.Input[str],
-             language: pulumi.Input[str],
-             project_ref: pulumi.Input[str],
-             return_type: pulumi.Input[str],
-             schema: pulumi.Input[str],
-             security_definer: pulumi.Input[bool],
-             args: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-             config_params: Optional[pulumi.Input[Mapping[str, Any]]] = None,
-             name: Optional[pulumi.Input[str]] = None,
-             opts: Optional[pulumi.ResourceOptions]=None,
-             **kwargs):
-
-        _setter("behaviour", behaviour)
-        _setter("definition", definition)
-        _setter("language", language)
-        _setter("project_ref", project_ref)
-        _setter("return_type", return_type)
-        _setter("schema", schema)
-        _setter("security_definer", security_definer)
+        pulumi.set(__self__, "behaviour", behaviour)
+        pulumi.set(__self__, "definition", definition)
+        pulumi.set(__self__, "language", language)
+        pulumi.set(__self__, "project_ref", project_ref)
+        pulumi.set(__self__, "return_type", return_type)
+        pulumi.set(__self__, "schema", schema)
+        pulumi.set(__self__, "security_definer", security_definer)
         if args is not None:
-            _setter("args", args)
+            pulumi.set(__self__, "args", args)
         if config_params is not None:
-            _setter("config_params", config_params)
+            pulumi.set(__self__, "config_params", config_params)
         if name is not None:
-            _setter("name", name)
+            pulumi.set(__self__, "name", name)
 
     @property
     @pulumi.getter
@@ -200,10 +171,6 @@ class DbFunction(pulumi.CustomResource):
         if resource_args is not None:
             __self__._internal_init(resource_name, opts, **resource_args.__dict__)
         else:
-            kwargs = kwargs or {}
-            def _setter(key, value):
-                kwargs[key] = value
-            DbFunctionArgs._configure(_setter, **kwargs)
             __self__._internal_init(resource_name, *args, **kwargs)
 
     def _internal_init(__self__,

@@ -6,7 +6,7 @@ import copy
 import warnings
 import pulumi
 import pulumi.runtime
-from typing import Any, Callable, Mapping, Optional, Sequence, Union, overload
+from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
 
 __all__ = ['ProjectArgs', 'Project']
@@ -24,41 +24,18 @@ class ProjectArgs:
         """
         The set of arguments for constructing a Project resource.
         """
-        ProjectArgs._configure(
-            lambda key, value: pulumi.set(__self__, key, value),
-            db_pass=db_pass,
-            organization_id=organization_id,
-            cloud=cloud,
-            kps_enabled=kps_enabled,
-            name=name,
-            plan=plan,
-            region=region,
-        )
-    @staticmethod
-    def _configure(
-             _setter: Callable[[Any, Any], None],
-             db_pass: pulumi.Input[str],
-             organization_id: pulumi.Input[int],
-             cloud: Optional[pulumi.Input[str]] = None,
-             kps_enabled: Optional[pulumi.Input[bool]] = None,
-             name: Optional[pulumi.Input[str]] = None,
-             plan: Optional[pulumi.Input[str]] = None,
-             region: Optional[pulumi.Input[str]] = None,
-             opts: Optional[pulumi.ResourceOptions]=None,
-             **kwargs):
-
-        _setter("db_pass", db_pass)
-        _setter("organization_id", organization_id)
+        pulumi.set(__self__, "db_pass", db_pass)
+        pulumi.set(__self__, "organization_id", organization_id)
         if cloud is not None:
-            _setter("cloud", cloud)
+            pulumi.set(__self__, "cloud", cloud)
         if kps_enabled is not None:
-            _setter("kps_enabled", kps_enabled)
+            pulumi.set(__self__, "kps_enabled", kps_enabled)
         if name is not None:
-            _setter("name", name)
+            pulumi.set(__self__, "name", name)
         if plan is not None:
-            _setter("plan", plan)
+            pulumi.set(__self__, "plan", plan)
         if region is not None:
-            _setter("region", region)
+            pulumi.set(__self__, "region", region)
 
     @property
     @pulumi.getter
@@ -160,10 +137,6 @@ class Project(pulumi.CustomResource):
         if resource_args is not None:
             __self__._internal_init(resource_name, opts, **resource_args.__dict__)
         else:
-            kwargs = kwargs or {}
-            def _setter(key, value):
-                kwargs[key] = value
-            ProjectArgs._configure(_setter, **kwargs)
             __self__._internal_init(resource_name, *args, **kwargs)
 
     def _internal_init(__self__,

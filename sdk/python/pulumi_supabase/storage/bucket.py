@@ -6,7 +6,7 @@ import copy
 import warnings
 import pulumi
 import pulumi.runtime
-from typing import Any, Callable, Mapping, Optional, Sequence, Union, overload
+from typing import Any, Mapping, Optional, Sequence, Union, overload
 from .. import _utilities
 
 __all__ = ['BucketArgs', 'Bucket']
@@ -22,34 +22,15 @@ class BucketArgs:
         """
         The set of arguments for constructing a Bucket resource.
         """
-        BucketArgs._configure(
-            lambda key, value: pulumi.set(__self__, key, value),
-            project_ref=project_ref,
-            allowed_mime_types=allowed_mime_types,
-            file_size_limit=file_size_limit,
-            name=name,
-            public=public,
-        )
-    @staticmethod
-    def _configure(
-             _setter: Callable[[Any, Any], None],
-             project_ref: pulumi.Input[str],
-             allowed_mime_types: Optional[pulumi.Input[Sequence[pulumi.Input[str]]]] = None,
-             file_size_limit: Optional[pulumi.Input[int]] = None,
-             name: Optional[pulumi.Input[str]] = None,
-             public: Optional[pulumi.Input[bool]] = None,
-             opts: Optional[pulumi.ResourceOptions]=None,
-             **kwargs):
-
-        _setter("project_ref", project_ref)
+        pulumi.set(__self__, "project_ref", project_ref)
         if allowed_mime_types is not None:
-            _setter("allowed_mime_types", allowed_mime_types)
+            pulumi.set(__self__, "allowed_mime_types", allowed_mime_types)
         if file_size_limit is not None:
-            _setter("file_size_limit", file_size_limit)
+            pulumi.set(__self__, "file_size_limit", file_size_limit)
         if name is not None:
-            _setter("name", name)
+            pulumi.set(__self__, "name", name)
         if public is not None:
-            _setter("public", public)
+            pulumi.set(__self__, "public", public)
 
     @property
     @pulumi.getter
@@ -131,10 +112,6 @@ class Bucket(pulumi.CustomResource):
         if resource_args is not None:
             __self__._internal_init(resource_name, opts, **resource_args.__dict__)
         else:
-            kwargs = kwargs or {}
-            def _setter(key, value):
-                kwargs[key] = value
-            BucketArgs._configure(_setter, **kwargs)
             __self__._internal_init(resource_name, *args, **kwargs)
 
     def _internal_init(__self__,

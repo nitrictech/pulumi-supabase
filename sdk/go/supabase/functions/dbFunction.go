@@ -10,7 +10,6 @@ import (
 	"errors"
 	"github.com/nitrictech/pulumi-supabase/sdk/v3/go/supabase/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
-	"github.com/pulumi/pulumi/sdk/v3/go/pulumix"
 )
 
 type DbFunction struct {
@@ -140,12 +139,6 @@ func (i *DbFunction) ToDbFunctionOutputWithContext(ctx context.Context) DbFuncti
 	return pulumi.ToOutputWithContext(ctx, i).(DbFunctionOutput)
 }
 
-func (i *DbFunction) ToOutput(ctx context.Context) pulumix.Output[*DbFunction] {
-	return pulumix.Output[*DbFunction]{
-		OutputState: i.ToDbFunctionOutputWithContext(ctx).OutputState,
-	}
-}
-
 // DbFunctionArrayInput is an input type that accepts DbFunctionArray and DbFunctionArrayOutput values.
 // You can construct a concrete instance of `DbFunctionArrayInput` via:
 //
@@ -169,12 +162,6 @@ func (i DbFunctionArray) ToDbFunctionArrayOutput() DbFunctionArrayOutput {
 
 func (i DbFunctionArray) ToDbFunctionArrayOutputWithContext(ctx context.Context) DbFunctionArrayOutput {
 	return pulumi.ToOutputWithContext(ctx, i).(DbFunctionArrayOutput)
-}
-
-func (i DbFunctionArray) ToOutput(ctx context.Context) pulumix.Output[[]*DbFunction] {
-	return pulumix.Output[[]*DbFunction]{
-		OutputState: i.ToDbFunctionArrayOutputWithContext(ctx).OutputState,
-	}
 }
 
 // DbFunctionMapInput is an input type that accepts DbFunctionMap and DbFunctionMapOutput values.
@@ -202,12 +189,6 @@ func (i DbFunctionMap) ToDbFunctionMapOutputWithContext(ctx context.Context) DbF
 	return pulumi.ToOutputWithContext(ctx, i).(DbFunctionMapOutput)
 }
 
-func (i DbFunctionMap) ToOutput(ctx context.Context) pulumix.Output[map[string]*DbFunction] {
-	return pulumix.Output[map[string]*DbFunction]{
-		OutputState: i.ToDbFunctionMapOutputWithContext(ctx).OutputState,
-	}
-}
-
 type DbFunctionOutput struct{ *pulumi.OutputState }
 
 func (DbFunctionOutput) ElementType() reflect.Type {
@@ -220,12 +201,6 @@ func (o DbFunctionOutput) ToDbFunctionOutput() DbFunctionOutput {
 
 func (o DbFunctionOutput) ToDbFunctionOutputWithContext(ctx context.Context) DbFunctionOutput {
 	return o
-}
-
-func (o DbFunctionOutput) ToOutput(ctx context.Context) pulumix.Output[*DbFunction] {
-	return pulumix.Output[*DbFunction]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o DbFunctionOutput) Args() pulumi.StringArrayOutput {
@@ -290,12 +265,6 @@ func (o DbFunctionArrayOutput) ToDbFunctionArrayOutputWithContext(ctx context.Co
 	return o
 }
 
-func (o DbFunctionArrayOutput) ToOutput(ctx context.Context) pulumix.Output[[]*DbFunction] {
-	return pulumix.Output[[]*DbFunction]{
-		OutputState: o.OutputState,
-	}
-}
-
 func (o DbFunctionArrayOutput) Index(i pulumi.IntInput) DbFunctionOutput {
 	return pulumi.All(o, i).ApplyT(func(vs []interface{}) *DbFunction {
 		return vs[0].([]*DbFunction)[vs[1].(int)]
@@ -314,12 +283,6 @@ func (o DbFunctionMapOutput) ToDbFunctionMapOutput() DbFunctionMapOutput {
 
 func (o DbFunctionMapOutput) ToDbFunctionMapOutputWithContext(ctx context.Context) DbFunctionMapOutput {
 	return o
-}
-
-func (o DbFunctionMapOutput) ToOutput(ctx context.Context) pulumix.Output[map[string]*DbFunction] {
-	return pulumix.Output[map[string]*DbFunction]{
-		OutputState: o.OutputState,
-	}
 }
 
 func (o DbFunctionMapOutput) MapIndex(k pulumi.StringInput) DbFunctionOutput {
