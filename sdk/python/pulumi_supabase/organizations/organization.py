@@ -14,12 +14,23 @@ __all__ = ['OrganizationArgs', 'Organization']
 @pulumi.input_type
 class OrganizationArgs:
     def __init__(__self__, *,
+                 tier: pulumi.Input[str],
                  name: Optional[pulumi.Input[str]] = None):
         """
         The set of arguments for constructing a Organization resource.
         """
+        pulumi.set(__self__, "tier", tier)
         if name is not None:
             pulumi.set(__self__, "name", name)
+
+    @property
+    @pulumi.getter
+    def tier(self) -> pulumi.Input[str]:
+        return pulumi.get(self, "tier")
+
+    @tier.setter
+    def tier(self, value: pulumi.Input[str]):
+        pulumi.set(self, "tier", value)
 
     @property
     @pulumi.getter
@@ -37,6 +48,7 @@ class Organization(pulumi.CustomResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  name: Optional[pulumi.Input[str]] = None,
+                 tier: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         """
         Create a Organization resource with the given unique name, props, and options.
@@ -47,7 +59,7 @@ class Organization(pulumi.CustomResource):
     @overload
     def __init__(__self__,
                  resource_name: str,
-                 args: Optional[OrganizationArgs] = None,
+                 args: OrganizationArgs,
                  opts: Optional[pulumi.ResourceOptions] = None):
         """
         Create a Organization resource with the given unique name, props, and options.
@@ -67,6 +79,7 @@ class Organization(pulumi.CustomResource):
                  resource_name: str,
                  opts: Optional[pulumi.ResourceOptions] = None,
                  name: Optional[pulumi.Input[str]] = None,
+                 tier: Optional[pulumi.Input[str]] = None,
                  __props__=None):
         opts = pulumi.ResourceOptions.merge(_utilities.get_resource_opts_defaults(), opts)
         if not isinstance(opts, pulumi.ResourceOptions):
@@ -77,6 +90,9 @@ class Organization(pulumi.CustomResource):
             __props__ = OrganizationArgs.__new__(OrganizationArgs)
 
             __props__.__dict__["name"] = name
+            if tier is None and not opts.urn:
+                raise TypeError("Missing required property 'tier'")
+            __props__.__dict__["tier"] = tier
             __props__.__dict__["organization_id"] = None
             __props__.__dict__["organization_name"] = None
             __props__.__dict__["organization_slug"] = None
@@ -106,6 +122,7 @@ class Organization(pulumi.CustomResource):
         __props__.__dict__["organization_id"] = None
         __props__.__dict__["organization_name"] = None
         __props__.__dict__["organization_slug"] = None
+        __props__.__dict__["tier"] = None
         return Organization(resource_name, opts=opts, __props__=__props__)
 
     @property
@@ -127,4 +144,9 @@ class Organization(pulumi.CustomResource):
     @pulumi.getter
     def organization_slug(self) -> pulumi.Output[str]:
         return pulumi.get(self, "organization_slug")
+
+    @property
+    @pulumi.getter
+    def tier(self) -> pulumi.Output[str]:
+        return pulumi.get(self, "tier")
 

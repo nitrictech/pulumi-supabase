@@ -28,6 +28,8 @@ type Organization struct{}
 type OrganizationArgs struct {
 	// The name of the organization to create, if not provided one will be generated from the resource name
 	Name string `pulumi:"name,optional"`
+
+	Tier string `pulumi:"tier"`
 }
 
 // Each resource has a state, describing the fields that exist on the created resource.
@@ -56,12 +58,14 @@ func (Organization) Create(ctx p.Context, name string, input OrganizationArgs, p
 		orgName = input.Name
 	}
 
+	tier := supabase.CreateOrganizationBodyV2Tier(input.Tier)
+
 	resp, err := supabaseClient.CreateOrganizationWithTier(ctx, supabase.CreateOrganizationBodyV2{
 		Name: orgName,
 		Kind: lo.ToPtr("PERSONAL"),
 		// TODO: The v0 API doesn't accept billing information
 		// So orgs will be created with legacy billing until updated
-		// Tier: supabase.TierFree,
+		Tier: &tier,
 	})
 	if err != nil {
 		return name, state, err
