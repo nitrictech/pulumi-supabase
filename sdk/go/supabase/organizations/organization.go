@@ -7,6 +7,7 @@ import (
 	"context"
 	"reflect"
 
+	"errors"
 	"github.com/nitrictech/pulumi-supabase/sdk/v3/go/supabase/internal"
 	"github.com/pulumi/pulumi/sdk/v3/go/pulumi"
 )
@@ -18,15 +19,19 @@ type Organization struct {
 	Organization_id   pulumi.IntOutput       `pulumi:"organization_id"`
 	Organization_name pulumi.StringOutput    `pulumi:"organization_name"`
 	Organization_slug pulumi.StringOutput    `pulumi:"organization_slug"`
+	Tier              pulumi.StringOutput    `pulumi:"tier"`
 }
 
 // NewOrganization registers a new resource with the given unique name, arguments, and options.
 func NewOrganization(ctx *pulumi.Context,
 	name string, args *OrganizationArgs, opts ...pulumi.ResourceOption) (*Organization, error) {
 	if args == nil {
-		args = &OrganizationArgs{}
+		return nil, errors.New("missing one or more required arguments")
 	}
 
+	if args.Tier == nil {
+		return nil, errors.New("invalid value for required argument 'Tier'")
+	}
 	opts = internal.PkgResourceDefaultOpts(opts)
 	var resource Organization
 	err := ctx.RegisterResource("supabase:organizations:Organization", name, args, &resource, opts...)
@@ -61,11 +66,13 @@ func (OrganizationState) ElementType() reflect.Type {
 
 type organizationArgs struct {
 	Name *string `pulumi:"name"`
+	Tier string  `pulumi:"tier"`
 }
 
 // The set of arguments for constructing a Organization resource.
 type OrganizationArgs struct {
 	Name pulumi.StringPtrInput
+	Tier pulumi.StringInput
 }
 
 func (OrganizationArgs) ElementType() reflect.Type {
@@ -169,6 +176,10 @@ func (o OrganizationOutput) Organization_name() pulumi.StringOutput {
 
 func (o OrganizationOutput) Organization_slug() pulumi.StringOutput {
 	return o.ApplyT(func(v *Organization) pulumi.StringOutput { return v.Organization_slug }).(pulumi.StringOutput)
+}
+
+func (o OrganizationOutput) Tier() pulumi.StringOutput {
+	return o.ApplyT(func(v *Organization) pulumi.StringOutput { return v.Tier }).(pulumi.StringOutput)
 }
 
 type OrganizationArrayOutput struct{ *pulumi.OutputState }

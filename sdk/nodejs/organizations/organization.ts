@@ -35,6 +35,7 @@ export class Organization extends pulumi.CustomResource {
     public /*out*/ readonly organization_id!: pulumi.Output<number>;
     public /*out*/ readonly organization_name!: pulumi.Output<string>;
     public /*out*/ readonly organization_slug!: pulumi.Output<string>;
+    public readonly tier!: pulumi.Output<string>;
 
     /**
      * Create a Organization resource with the given unique name, arguments, and options.
@@ -43,11 +44,15 @@ export class Organization extends pulumi.CustomResource {
      * @param args The arguments to use to populate this resource's properties.
      * @param opts A bag of options that control this resource's behavior.
      */
-    constructor(name: string, args?: OrganizationArgs, opts?: pulumi.CustomResourceOptions) {
+    constructor(name: string, args: OrganizationArgs, opts?: pulumi.CustomResourceOptions) {
         let resourceInputs: pulumi.Inputs = {};
         opts = opts || {};
         if (!opts.id) {
+            if ((!args || args.tier === undefined) && !opts.urn) {
+                throw new Error("Missing required property 'tier'");
+            }
             resourceInputs["name"] = args ? args.name : undefined;
+            resourceInputs["tier"] = args ? args.tier : undefined;
             resourceInputs["organization_id"] = undefined /*out*/;
             resourceInputs["organization_name"] = undefined /*out*/;
             resourceInputs["organization_slug"] = undefined /*out*/;
@@ -56,6 +61,7 @@ export class Organization extends pulumi.CustomResource {
             resourceInputs["organization_id"] = undefined /*out*/;
             resourceInputs["organization_name"] = undefined /*out*/;
             resourceInputs["organization_slug"] = undefined /*out*/;
+            resourceInputs["tier"] = undefined /*out*/;
         }
         opts = pulumi.mergeOptions(utilities.resourceOptsDefaults(), opts);
         super(Organization.__pulumiType, name, resourceInputs, opts);
@@ -67,4 +73,5 @@ export class Organization extends pulumi.CustomResource {
  */
 export interface OrganizationArgs {
     name?: pulumi.Input<string>;
+    tier: pulumi.Input<string>;
 }

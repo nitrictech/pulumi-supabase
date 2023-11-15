@@ -24,6 +24,9 @@ namespace Pulumi.Supabase.Organizations
         [Output("organization_slug")]
         public Output<string> Organization_slug { get; private set; } = null!;
 
+        [Output("tier")]
+        public Output<string> Tier { get; private set; } = null!;
+
 
         /// <summary>
         /// Create a Organization resource with the given unique name, arguments, and options.
@@ -32,7 +35,7 @@ namespace Pulumi.Supabase.Organizations
         /// <param name="name">The unique name of the resource</param>
         /// <param name="args">The arguments used to populate this resource's properties</param>
         /// <param name="options">A bag of options that control this resource's behavior</param>
-        public Organization(string name, OrganizationArgs? args = null, CustomResourceOptions? options = null)
+        public Organization(string name, OrganizationArgs args, CustomResourceOptions? options = null)
             : base("supabase:organizations:Organization", name, args ?? new OrganizationArgs(), MakeResourceOptions(options, ""))
         {
         }
@@ -71,6 +74,9 @@ namespace Pulumi.Supabase.Organizations
     {
         [Input("name")]
         public Input<string>? Name { get; set; }
+
+        [Input("tier", required: true)]
+        public Input<string> Tier { get; set; } = null!;
 
         public OrganizationArgs()
         {
